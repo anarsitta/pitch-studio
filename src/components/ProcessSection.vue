@@ -12,12 +12,11 @@ const steps = [
   <section id="process" class="process">
     <div class="process-inner">
       <div v-reveal class="reveal section-head">
-        <div class="eyebrow"><span class="eyebrow-line"></span>Как мы работаем</div>
-        <h2 class="section-title">Прозрачный процесс от брифа до масштаба</h2>
+        <h2 class="section-title">Прозрачный процесс от брифа до <span class="hl">масштаба</span></h2>
       </div>
 
       <div class="grid">
-        <div v-for="step in steps" :key="step.num" v-reveal class="reveal step">
+        <div v-for="(step, i) in steps" :key="step.num" v-reveal="i" class="reveal step">
           <div class="step-num">{{ step.num }}</div>
           <h3 class="step-title">{{ step.title }}</h3>
           <p class="step-desc">{{ step.desc }}</p>
@@ -40,26 +39,14 @@ const steps = [
   padding: clamp(70px, 10vw, 120px) 24px;
 }
 
-.reveal { opacity: 0; transform: translateY(30px); }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.is-armed { opacity: 0; transform: translateY(30px); }
+.reveal.is-armed.is-visible { opacity: 1; transform: none; }
 
 .section-head {
   transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
   margin-bottom: 56px;
   max-width: 44ch;
 }
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--c-accent);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.eyebrow-line { width: 22px; height: 2px; background: var(--c-accent); }
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
@@ -67,6 +54,7 @@ const steps = [
   line-height: 1.02;
   letter-spacing: -.03em;
   margin: 0;
+  text-wrap: balance;
 }
 
 .grid {

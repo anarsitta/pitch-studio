@@ -11,8 +11,9 @@ import SiteFooter from './components/SiteFooter.vue'
 
 <template>
   <div class="site">
+    <a href="#main" class="skip-link">Перейти к содержимому</a>
     <SiteHeader />
-    <main>
+    <main id="main" tabindex="-1">
       <HeroSection />
       <ServicesSection />
       <ProcessSection />
@@ -25,6 +26,7 @@ import SiteFooter from './components/SiteFooter.vue'
 </template>
 
 <style scoped>
+main:focus { outline: none; }
 .site {
   background: var(--c-bg);
   color: var(--c-fg);

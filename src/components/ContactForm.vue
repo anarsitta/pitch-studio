@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, nextTick } from 'vue'
 
 const fName = ref('')
 const fContact = ref('')
@@ -8,6 +8,11 @@ const errName = ref('')
 const errContact = ref('')
 const sent = ref(false)
 const sentName = ref('')
+const submitting = ref(false)
+const serverError = ref('')
+const successTitle = ref(null)
+const nameInput = ref(null)
+const contactInput = ref(null)
 
 function validate() {
   errName.value = fName.value.trim().length < 2 ? 'Пожалуйста, укажите имя' : ''
@@ -15,11 +20,34 @@ function validate() {
   return !errName.value && !errContact.value
 }
 
-function onSubmit() {
-  if (validate()) {
+async function onSubmit() {
+  if (submitting.value) return
+  serverError.value = ''
+  if (!validate()) {
+    // Move focus to the first invalid field so keyboard/AT users find the error.
+    await nextTick()
+    if (errName.value) nameInput.value?.focus()
+    else if (errContact.value) contactInput.value?.focus()
+    return
+  }
+  submitting.value = true
+  try {
+    await sendLead({ name: fName.value.trim(), contact: fContact.value.trim(), task: fTask.value.trim() })
     sentName.value = fName.value.trim()
     sent.value = true
+    // Move focus to the confirmation so keyboard/screen-reader users land on it.
+    nextTick(() => successTitle.value?.focus())
+  } catch {
+    serverError.value = 'Не удалось отправить заявку. Попробуйте ещё раз или позвоните нам.'
+  } finally {
+    submitting.value = false
   }
+}
+
+// Placeholder network call — resolves after a short delay so the pending and
+// error states are real. Replace the body with a POST to your backend / CRM.
+function sendLead(payload) {
+  return new Promise((resolve) => setTimeout(resolve, 900))
 }
 
 function reset() {
@@ -28,6 +56,7 @@ function reset() {
   fContact.value = ''
   fTask.value = ''
   sentName.value = ''
+  serverError.value = ''
 }
 </script>
 
@@ -36,64 +65,81 @@ function reset() {
     <div class="panel">
       <div class="panel-glow" aria-hidden="true"></div>
       <div class="layout">
-        <div v-reveal class="reveal info">
+        <div v-reveal="0" class="reveal info">
           <h2 class="title">Обсудим ваш проект?</h2>
           <p class="lead">Расскажите о задаче — вернёмся с планом и оценкой в течение рабочего дня. Без обязательств и навязчивых звонков.</p>
           <div class="channels">
             <a href="tel:+70000000000" class="channel">
-              <span class="channel-icon channel-icon--phone">✆</span>
+              <span class="channel-icon channel-icon--phone" aria-hidden="true">✆</span>
               +7 (000) 000-00-00
             </a>
             <a href="mailto:hello@pitch.studio" class="channel">
-              <span class="channel-icon channel-icon--mail">@</span>
+              <span class="channel-icon channel-icon--mail" aria-hidden="true">@</span>
               hello@pitch.studio
             </a>
           </div>
         </div>
 
-        <div v-reveal class="reveal d1 form-col">
-          <div v-if="sent" class="success">
-            <div class="success-mark">✓</div>
-            <h3 class="success-title">Заявка принята!</h3>
+        <div v-reveal="1" class="reveal form-col">
+          <div v-if="sent" class="success" role="status">
+            <div class="success-mark" aria-hidden="true">✓</div>
+            <h3 ref="successTitle" tabindex="-1" class="success-title">Заявка принята!</h3>
             <p class="success-text">Спасибо, {{ sentName }}. Мы свяжемся с вами в течение рабочего дня.</p>
             <button type="button" class="success-reset" @click="reset">Отправить ещё одну</button>
           </div>
 
           <form v-else class="form" novalidate @submit.prevent="onSubmit">
             <div>
-              <label class="label">Как вас зовут *</label>
+              <label class="label" for="cf-name">Как вас зовут *</label>
               <input
+                id="cf-name"
+                ref="nameInput"
                 v-model="fName"
                 type="text"
+                autocomplete="name"
                 placeholder="Иван Петров"
                 class="input"
                 :class="{ 'has-error': errName }"
+                aria-required="true"
+                :aria-invalid="errName ? 'true' : 'false'"
+                :aria-describedby="errName ? 'cf-name-err' : undefined"
                 @input="errName = ''"
               />
-              <div v-if="errName" class="field-error">{{ errName }}</div>
+              <div v-if="errName" id="cf-name-err" class="field-error" role="alert">{{ errName }}</div>
             </div>
             <div>
-              <label class="label">Телефон или мессенджер *</label>
+              <label class="label" for="cf-contact">Телефон или мессенджер *</label>
               <input
+                id="cf-contact"
+                ref="contactInput"
                 v-model="fContact"
                 type="text"
+                autocomplete="tel"
                 placeholder="+7 999 000-00-00 или @telegram"
                 class="input"
                 :class="{ 'has-error': errContact }"
+                aria-required="true"
+                :aria-invalid="errContact ? 'true' : 'false'"
+                :aria-describedby="errContact ? 'cf-contact-err' : undefined"
                 @input="errContact = ''"
               />
-              <div v-if="errContact" class="field-error">{{ errContact }}</div>
+              <div v-if="errContact" id="cf-contact-err" class="field-error" role="alert">{{ errContact }}</div>
             </div>
             <div>
-              <label class="label">Опишите задачу</label>
+              <label class="label" for="cf-task">Опишите задачу</label>
               <textarea
+                id="cf-task"
                 v-model="fTask"
                 rows="3"
                 placeholder="Что хотите продвигать и какого результата ждёте?"
                 class="input textarea"
               ></textarea>
             </div>
-            <button type="submit" class="submit">Отправить заявку →</button>
+            <button type="submit" class="submit" :disabled="submitting" :aria-busy="submitting">
+              <template v-if="submitting"><span class="spinner" aria-hidden="true"></span> Отправляем…</template>
+              <template v-else>Отправить заявку <span aria-hidden="true">→</span></template>
+            </button>
+            <p v-if="serverError" class="server-error" role="alert">{{ serverError }}</p>
             <p class="consent">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
           </form>
         </div>
@@ -139,12 +185,10 @@ function reset() {
 }
 
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
   transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
 }
-.reveal.is-visible { opacity: 1; transform: none; }
-.d1 { transition-delay: .1s; }
+.reveal.is-armed { opacity: 0; transform: translateY(30px); }
+.reveal.is-armed.is-visible { opacity: 1; transform: none; }
 
 .title {
   font-family: var(--font-display);
@@ -262,6 +306,7 @@ function reset() {
   outline: none;
   transition: border-color .2s;
 }
+.input::placeholder { color: var(--c-fg-faint); }
 .input.has-error { border-color: var(--c-error); }
 .input:focus { border-color: var(--c-accent); }
 .textarea {
@@ -292,8 +337,36 @@ function reset() {
   transform: translateY(-2px);
   box-shadow: 0 14px 40px rgba(var(--c-accent-rgb), .36);
 }
+.submit:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 16px rgba(var(--c-accent-rgb), .3);
+}
+.submit:disabled {
+  cursor: default;
+  opacity: .8;
+  transform: none;
+  box-shadow: 0 4px 16px rgba(var(--c-accent-rgb), .18);
+}
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--c-bg) 30%, transparent);
+  border-top-color: var(--c-bg);
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.server-error {
+  color: var(--c-error);
+  font-size: 13.5px;
+  font-weight: 500;
+  margin: 2px 0 0;
+  text-align: center;
+}
 .consent {
-  color: rgba(var(--c-fg-rgb), .4);
+  color: var(--c-fg-faint);
   font-size: 12.5px;
   margin: 2px 0 0;
   text-align: center;

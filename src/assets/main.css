@@ -5,6 +5,9 @@
   --c-card-deep: #141712;
   --c-fg: #F4F6F1;
   --c-fg-rgb: 244, 246, 241;
+  /* Quietest legible text tier: fine print, meta, placeholders, section labels.
+     55% on #0B0C0A = 5.84:1 — the AA floor for small text. Never go lower. */
+  --c-fg-faint: rgba(244, 246, 241, .55);
   --c-accent: #C4FA3B;
   --c-accent-rgb: 196, 250, 59;
   --c-error: #FF7A6B;
@@ -18,8 +21,58 @@ html { scroll-behavior: smooth; }
 body { margin: 0; background: var(--c-bg); }
 ::selection { background: var(--c-accent); color: var(--c-bg); }
 
+/* Lime keyword accent inside a heading — the brand's signature emphasis
+   (as in the hero), used in place of a tracked-caps section eyebrow. */
+.hl { color: var(--c-accent); }
+
+/* Focus: reset the UA default, give keyboard users one branded ring.
+   Mouse/touch focus (no :focus-visible) stays clean; inputs keep their
+   own border-colour emphasis on top. */
+:focus { outline: none; }
+:is(a, button, input, textarea, select, [tabindex]):focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+}
+
+/* Skip link — off-screen until a keyboard user tabs to it (WCAG 2.4.1). */
+.skip-link {
+  position: fixed;
+  left: 16px;
+  top: -80px;
+  z-index: 200;
+  background: var(--c-accent);
+  color: var(--c-bg);
+  font-weight: 700;
+  font-size: 15px;
+  padding: 11px 20px;
+  border-radius: 13px;
+  text-decoration: none;
+  box-shadow: 0 10px 30px rgba(var(--c-accent-rgb), .35);
+  transition: top .2s var(--ease-out);
+}
+.skip-link:focus { top: 16px; }
+
 @keyframes pitchMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 @keyframes pitchGlow { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: .85; transform: scale(1.12); } }
-@keyframes pitchFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
-@keyframes pitchSpin { to { transform: rotate(360deg); } }
 @keyframes pitchBlink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }
+
+/* User-invoked "stop movement" (the hero pause control) freezes every ambient
+   CSS animation — marquee, glow, blink — so the control lives up to its label. */
+.motion-paused *,
+.motion-paused *::before,
+.motion-paused *::after {
+  animation-play-state: paused !important;
+}
+
+/* Reduced motion: freeze the ambient loops (marquee, glow, blink), disable
+   scroll-triggered reveals and count-ups (handled in JS), keep everything
+   readable and static. Content is already visible by default. */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+    transition-delay: 0 !important;
+  }
+}

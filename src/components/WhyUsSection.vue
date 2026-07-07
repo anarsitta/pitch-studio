@@ -12,13 +12,16 @@ const advantages = [
     <div class="why-inner">
       <div class="layout">
         <div v-reveal class="reveal intro">
-          <div class="eyebrow"><span class="eyebrow-line"></span>Почему мы</div>
-          <h2 class="section-title">Одна команда вместо пяти подрядчиков</h2>
+          <h2 class="section-title">Одна <span class="hl">команда</span> вместо пяти подрядчиков</h2>
           <p class="intro-text">Стратегия, трафик, разработка и продакшн живут внутри агентства. Никаких потерь на стыках — только скорость и общая ответственность за результат.</p>
         </div>
         <div class="list">
-          <div v-for="a in advantages" :key="a.mark" v-reveal class="reveal item">
-            <div class="item-mark">{{ a.mark }}</div>
+          <div v-for="(a, i) in advantages" :key="a.mark" v-reveal="i" class="reveal item">
+            <div class="item-mark" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M20 6 9 17l-5-5" />
+              </svg>
+            </div>
             <div>
               <h3 class="item-title">{{ a.title }}</h3>
               <p class="item-desc">{{ a.desc }}</p>
@@ -51,22 +54,10 @@ const advantages = [
   align-items: start;
 }
 
-.reveal { opacity: 0; transform: translateY(30px); }
-.reveal.is-visible { opacity: 1; transform: none; }
+.reveal.is-armed { opacity: 0; transform: translateY(30px); }
+.reveal.is-armed.is-visible { opacity: 1; transform: none; }
 
 .intro { transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
-.eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  color: var(--c-accent);
-  font-weight: 700;
-  font-size: 14px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  margin-bottom: 16px;
-}
-.eyebrow-line { width: 22px; height: 2px; background: var(--c-accent); }
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
@@ -74,6 +65,7 @@ const advantages = [
   line-height: 1.02;
   letter-spacing: -.03em;
   margin: 0 0 20px;
+  text-wrap: balance;
 }
 .intro-text {
   color: rgba(var(--c-fg-rgb), .62);
@@ -87,7 +79,6 @@ const advantages = [
   display: grid;
   gap: 14px;
 }
-.item:not(.is-visible) { transform: translateY(24px); }
 .item {
   transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), border-color .3s;
   display: flex;
@@ -108,10 +99,8 @@ const advantages = [
   color: var(--c-bg);
   display: grid;
   place-items: center;
-  font-family: var(--font-display);
-  font-weight: 800;
-  font-size: 17px;
 }
+.item-mark svg { width: 21px; height: 21px; }
 .item-title {
   font-family: var(--font-display);
   font-weight: 600;

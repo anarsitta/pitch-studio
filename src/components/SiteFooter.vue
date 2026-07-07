@@ -88,7 +88,7 @@ const socials = ['VK', 'TG', 'YT']
   letter-spacing: -.02em;
 }
 .about-text {
-  color: rgba(var(--c-fg-rgb), .5);
+  color: var(--c-fg-faint);
   font-size: 14.5px;
   margin: 0;
   max-width: 34ch;
@@ -99,7 +99,7 @@ const socials = ['VK', 'TG', 'YT']
   font-size: 13px;
   letter-spacing: .06em;
   text-transform: uppercase;
-  color: rgba(var(--c-fg-rgb), .45);
+  color: var(--c-fg-faint);
   margin-bottom: 16px;
 }
 .col-links {
@@ -115,8 +115,14 @@ const socials = ['VK', 'TG', 'YT']
   transition: color .2s;
 }
 .footer-link:hover { color: var(--c-accent); }
+
+/* Roomier tap targets on touch devices */
+@media (pointer: coarse) {
+  .col-links { gap: 4px; }
+  .footer-link { padding: 7px 0; }
+}
 .col-note {
-  color: rgba(var(--c-fg-rgb), .5);
+  color: var(--c-fg-faint);
   font-size: 14px;
 }
 .socials {
@@ -128,8 +134,8 @@ const socials = ['VK', 'TG', 'YT']
   text-decoration: none;
   display: grid;
   place-items: center;
-  width: 42px;
-  height: 42px;
+  width: 44px;
+  height: 44px;
   border-radius: 11px;
   border: 1px solid rgba(255, 255, 255, .12);
   color: rgba(var(--c-fg-rgb), .8);
@@ -151,7 +157,7 @@ const socials = ['VK', 'TG', 'YT']
   justify-content: space-between;
   gap: 16px;
   flex-wrap: wrap;
-  color: rgba(var(--c-fg-rgb), .4);
+  color: var(--c-fg-faint);
   font-size: 13.5px;
 }
 </style>
