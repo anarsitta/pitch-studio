@@ -1,0 +1,25 @@
+:root {
+  --c-bg: #0B0C0A;
+  --c-bg-2: #0E100C;
+  --c-bg-footer: #0A0B09;
+  --c-card-deep: #141712;
+  --c-fg: #F4F6F1;
+  --c-fg-rgb: 244, 246, 241;
+  --c-accent: #C4FA3B;
+  --c-accent-rgb: 196, 250, 59;
+  --c-error: #FF7A6B;
+  --font-display: 'Unbounded';
+  --font-body: 'Manrope';
+  --ease-out: cubic-bezier(.22, 1, .36, 1);
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--c-bg); }
+::selection { background: var(--c-accent); color: var(--c-bg); }
+
+@keyframes pitchMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+@keyframes pitchGlow { 0%, 100% { opacity: .5; transform: scale(1); } 50% { opacity: .85; transform: scale(1.12); } }
+@keyframes pitchFloat { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+@keyframes pitchSpin { to { transform: rotate(360deg); } }
+@keyframes pitchBlink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } }

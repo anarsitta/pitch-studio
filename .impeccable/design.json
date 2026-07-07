@@ -1,0 +1,163 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-07-06T00:00:00Z",
+  "title": "Design System: Питч Студио",
+  "extensions": {
+    "colorMeta": {
+      "acid-lime": {
+        "role": "primary",
+        "displayName": "Кислотный лайм",
+        "canonical": "#C4FA3B",
+        "tonalRamp": ["oklch(25% 0.09 122)", "oklch(37% 0.13 122)", "oklch(49% 0.17 122)", "oklch(61% 0.2 122)", "oklch(73% 0.22 122)", "oklch(85% 0.24 122)", "oklch(91% 0.19 122)", "oklch(96% 0.1 122)"]
+      },
+      "stage-black": {
+        "role": "neutral",
+        "displayName": "Сценический чёрный",
+        "canonical": "#0B0C0A",
+        "tonalRamp": ["oklch(15% 0.008 120)", "oklch(25% 0.008 120)", "oklch(37% 0.008 120)", "oklch(49% 0.008 120)", "oklch(61% 0.008 120)", "oklch(73% 0.008 120)", "oklch(85% 0.008 120)", "oklch(95% 0.008 120)"]
+      },
+      "stage-black-2": {
+        "role": "neutral",
+        "displayName": "Сценический чёрный 2",
+        "canonical": "#0E100C",
+        "tonalRamp": ["oklch(16% 0.01 125)", "oklch(26% 0.01 125)", "oklch(38% 0.01 125)", "oklch(50% 0.01 125)", "oklch(62% 0.01 125)", "oklch(74% 0.01 125)", "oklch(86% 0.01 125)", "oklch(95% 0.01 125)"]
+      },
+      "stage-black-footer": {
+        "role": "neutral",
+        "displayName": "Чёрный футера",
+        "canonical": "#0A0B09",
+        "tonalRamp": ["oklch(14% 0.006 120)", "oklch(24% 0.006 120)", "oklch(36% 0.006 120)", "oklch(48% 0.006 120)", "oklch(60% 0.006 120)", "oklch(72% 0.006 120)", "oklch(84% 0.006 120)", "oklch(94% 0.006 120)"]
+      },
+      "card-deep": {
+        "role": "neutral",
+        "displayName": "Глубокая карточка",
+        "canonical": "#141712",
+        "tonalRamp": ["oklch(19% 0.012 125)", "oklch(29% 0.012 125)", "oklch(41% 0.012 125)", "oklch(53% 0.012 125)", "oklch(65% 0.012 125)", "oklch(77% 0.012 125)", "oklch(88% 0.012 125)", "oklch(96% 0.012 125)"]
+      },
+      "spotlight-white": {
+        "role": "neutral",
+        "displayName": "Прожекторный белый",
+        "canonical": "#F4F6F1",
+        "tonalRamp": ["oklch(20% 0.005 120)", "oklch(32% 0.005 120)", "oklch(44% 0.005 120)", "oklch(56% 0.005 120)", "oklch(68% 0.005 120)", "oklch(80% 0.005 120)", "oklch(90% 0.005 120)", "oklch(97% 0.005 120)"]
+      },
+      "coral-error": {
+        "role": "tertiary",
+        "displayName": "Коралловая ошибка",
+        "canonical": "#FF7A6B",
+        "tonalRamp": ["oklch(25% 0.08 28)", "oklch(37% 0.12 28)", "oklch(49% 0.16 28)", "oklch(61% 0.18 28)", "oklch(73% 0.15 28)", "oklch(82% 0.11 28)", "oklch(89% 0.07 28)", "oklch(95% 0.03 28)"]
+      }
+    },
+    "typographyMeta": {
+      "display": { "displayName": "Display", "purpose": "Только hero-заголовок: Unbounded 800, плотный, максимум 16ch." },
+      "headline": { "displayName": "Headline", "purpose": "Заголовки секций: Unbounded 700." },
+      "title": { "displayName": "Title", "purpose": "Заголовки карточек: Unbounded 600." },
+      "body": { "displayName": "Body", "purpose": "Основной текст: Manrope, белый 60–70%." },
+      "label": { "displayName": "Label", "purpose": "Eyebrow-метки, лейблы форм, подписи статистики." }
+    },
+    "shadows": [
+      { "name": "cta-glow-rest", "value": "0 8px 30px rgba(196,250,59,.22)", "purpose": "Первичная кнопка в покое — лаймовое свечение." },
+      { "name": "cta-glow-hover", "value": "0 16px 44px rgba(196,250,59,.4)", "purpose": "Усиление свечения при наведении вместе с подъёмом." },
+      { "name": "nav-cta-glow-hover", "value": "0 10px 28px rgba(196,250,59,.32)", "purpose": "Компактный CTA в шапке при наведении." }
+    ],
+    "motion": [
+      { "name": "ease-out", "value": "cubic-bezier(.22, 1, .36, 1)", "purpose": "Единый easing для reveal и переходов состояний." },
+      { "name": "reveal", "value": "opacity/transform .7–.8s, translateY(30px) → 0, каскад задержек .08s", "purpose": "Появление блоков при скролле (v-reveal, IntersectionObserver)." },
+      { "name": "pitchMarquee", "value": "translateX(0 → -50%) 32s linear infinite", "purpose": "Бегущая строка направлений под hero." },
+      { "name": "pitchGlow", "value": "opacity .5↔.85, scale 1↔1.12, 7–8s ease-in-out", "purpose": "Пульсация атмосферных glow-пятен." },
+      { "name": "pitchBlink", "value": "opacity 1↔.25, 1.6s ease-in-out", "purpose": "Пульсирующая точка в badge." }
+    ],
+    "breakpoints": []
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Главный CTA: лайм на чёрном, светится в покое, поднимается при наведении.",
+      "html": "<a href=\"#\" class=\"ds-btn-primary\">Обсудить проект <span class=\"ds-btn-arrow\">→</span></a>",
+      "css": ".ds-btn-primary { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; background: #C4FA3B; color: #0B0C0A; font-family: Manrope, sans-serif; font-weight: 700; font-size: 17px; padding: 16px 28px; border-radius: 13px; transition: transform .2s, box-shadow .2s; box-shadow: 0 8px 30px rgba(196,250,59,.22); } .ds-btn-primary:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(196,250,59,.4); } .ds-btn-primary:focus-visible { outline: 2px solid #C4FA3B; outline-offset: 3px; } .ds-btn-arrow { font-size: 19px; line-height: 1; }"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "Вторичное действие: прозрачный, при наведении граница и заливка лаймом.",
+      "html": "<a href=\"#\" class=\"ds-btn-ghost\">Смотреть услуги</a>",
+      "css": ".ds-btn-ghost { text-decoration: none; display: inline-flex; align-items: center; gap: 10px; background: transparent; color: #F4F6F1; font-family: Manrope, sans-serif; font-weight: 600; font-size: 17px; padding: 16px 26px; border-radius: 13px; border: 1px solid rgba(255,255,255,.16); transition: border-color .2s, background .2s; } .ds-btn-ghost:hover { border-color: rgba(196,250,59,.5); background: rgba(196,250,59,.05); } .ds-btn-ghost:focus-visible { outline: 2px solid #C4FA3B; outline-offset: 3px; }"
+    },
+    {
+      "name": "Badge",
+      "kind": "chip",
+      "refersTo": "badge",
+      "description": "Pill-маркер с пульсирующей точкой, открывает hero.",
+      "html": "<span class=\"ds-badge\"><span class=\"ds-badge-dot\"></span>Маркетинговое агентство полного цикла</span>",
+      "css": ".ds-badge { display: inline-flex; align-items: center; gap: 9px; padding: 7px 15px; border: 1px solid rgba(196,250,59,.35); border-radius: 999px; background: rgba(196,250,59,.06); font-family: Manrope, sans-serif; font-size: 13.5px; font-weight: 600; letter-spacing: .02em; color: #C4FA3B; } .ds-badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #C4FA3B; animation: ds-blink 1.6s ease-in-out infinite; } @keyframes ds-blink { 0%, 100% { opacity: 1; } 50% { opacity: .25; } } @media (prefers-reduced-motion: reduce) { .ds-badge-dot { animation: none; } }"
+    },
+    {
+      "name": "Service Card",
+      "kind": "card",
+      "refersTo": "card",
+      "description": "Карточка услуги: градиент белым поверх сцены, подъём и лаймовая граница на hover.",
+      "html": "<div class=\"ds-card\"><div class=\"ds-card-icon\"><svg width=\"26\" height=\"26\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.8\" stroke-linecap=\"round\"><circle cx=\"12\" cy=\"12\" r=\"9\"/><circle cx=\"12\" cy=\"12\" r=\"5\"/><circle cx=\"12\" cy=\"12\" r=\"1.4\" fill=\"currentColor\"/></svg></div><div class=\"ds-card-num\">01</div><h3 class=\"ds-card-title\">Таргет и контекст</h3><p class=\"ds-card-desc\">Настраиваем рекламу, которая приводит клиентов, а не пустые показы.</p></div>",
+      "css": ".ds-card { position: relative; max-width: 340px; padding: 32px 28px 30px; border-radius: 18px; background: linear-gradient(180deg, rgba(255,255,255,.035), rgba(255,255,255,.012)); border: 1px solid rgba(255,255,255,.08); transition: border-color .3s, background .3s, transform .3s; font-family: Manrope, sans-serif; color: #F4F6F1; } .ds-card:hover { border-color: rgba(196,250,59,.45); background: linear-gradient(180deg, rgba(196,250,59,.07), rgba(255,255,255,.015)); transform: translateY(-6px); } .ds-card-icon { width: 52px; height: 52px; border-radius: 13px; background: rgba(196,250,59,.12); border: 1px solid rgba(196,250,59,.28); display: grid; place-items: center; color: #C4FA3B; margin-bottom: 22px; } .ds-card-num { font-size: 12px; font-weight: 700; color: rgba(196,250,59,.75); letter-spacing: .06em; margin-bottom: 9px; } .ds-card-title { font-family: Unbounded, sans-serif; font-weight: 600; font-size: 1.28rem; letter-spacing: -.01em; margin: 0 0 12px; line-height: 1.15; } .ds-card-desc { color: rgba(244,246,241,.62); font-size: 15.5px; margin: 0; line-height: 1.55; }"
+    },
+    {
+      "name": "Text Input",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Поле формы: тонкая белая граница, лаймовый focus, коралловая ошибка.",
+      "html": "<div class=\"ds-field\"><label class=\"ds-label\">Как вас зовут *</label><input type=\"text\" class=\"ds-input\" placeholder=\"Иван Петров\"></div>",
+      "css": ".ds-field { font-family: Manrope, sans-serif; max-width: 320px; } .ds-label { display: block; font-size: 13.5px; font-weight: 600; color: rgba(244,246,241,.7); margin-bottom: 8px; } .ds-input { width: 100%; box-sizing: border-box; background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.12); border-radius: 12px; padding: 14px 16px; color: #F4F6F1; font-family: Manrope, sans-serif; font-size: 16px; outline: none; transition: border-color .2s; } .ds-input::placeholder { color: rgba(244,246,241,.45); } .ds-input:focus { border-color: #C4FA3B; }"
+    },
+    {
+      "name": "Navigation",
+      "kind": "nav",
+      "refersTo": "button-primary",
+      "description": "Липкая шапка: blur-стекло, логотип-квадрат, ссылки и компактный CTA.",
+      "html": "<header class=\"ds-header\"><a href=\"#\" class=\"ds-logo\"><span class=\"ds-logo-mark\">П</span><span class=\"ds-logo-name\">Питч Студио</span></a><nav class=\"ds-nav\"><a href=\"#\" class=\"ds-nav-link\">Услуги</a><a href=\"#\" class=\"ds-nav-link\">Кейсы</a><a href=\"#\" class=\"ds-nav-cta\">Обсудить проект</a></nav></header>",
+      "css": ".ds-header { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 16px 24px; background: rgba(11,12,10,.72); backdrop-filter: blur(16px); border-bottom: 1px solid rgba(255,255,255,.07); font-family: Manrope, sans-serif; min-width: 460px; } .ds-logo { display: flex; align-items: center; gap: 11px; text-decoration: none; color: #F4F6F1; } .ds-logo-mark { width: 34px; height: 34px; border-radius: 9px; background: #C4FA3B; display: grid; place-items: center; font-family: Unbounded, sans-serif; font-weight: 800; color: #0B0C0A; font-size: 20px; line-height: 1; } .ds-logo-name { font-family: Unbounded, sans-serif; font-weight: 700; font-size: 18px; letter-spacing: -.02em; } .ds-nav { display: flex; align-items: center; gap: 8px; } .ds-nav-link { text-decoration: none; color: rgba(244,246,241,.62); font-weight: 600; font-size: 15px; padding: 8px 12px; border-radius: 8px; transition: color .2s; } .ds-nav-link:hover { color: #F4F6F1; } .ds-nav-cta { text-decoration: none; color: #0B0C0A; background: #C4FA3B; font-weight: 700; font-size: 15px; padding: 10px 18px; border-radius: 10px; margin-left: 6px; transition: transform .2s, box-shadow .2s; } .ds-nav-cta:hover { transform: translateY(-2px); box-shadow: 0 10px 28px rgba(196,250,59,.32); }"
+    },
+    {
+      "name": "Eyebrow-метка секции",
+      "kind": "custom",
+      "refersTo": "badge",
+      "description": "Сигнатурный элемент: лаймовая линия + uppercase-слово, открывает каждую секцию.",
+      "html": "<div class=\"ds-eyebrow\"><span class=\"ds-eyebrow-line\"></span>Услуги</div>",
+      "css": ".ds-eyebrow { display: inline-flex; align-items: center; gap: 8px; color: #C4FA3B; font-family: Manrope, sans-serif; font-weight: 700; font-size: 14px; letter-spacing: .08em; text-transform: uppercase; } .ds-eyebrow-line { width: 22px; height: 2px; background: #C4FA3B; }"
+    }
+  ],
+  "narrative": {
+    "northStar": "Неон на тёмной сцене",
+    "overview": "Сайт — ночная сцена. Глубокая, почти чёрная темнота (#0B0C0A) — это фон и тишина; кислотный лайм (#C4FA3B) — прожектор, который зажигается только там, куда нужно направить внимание посетителя: CTA, ключевая цифра, вращающееся слово в заголовке. Свет здесь физический: акцент не просто красит элементы, он светится — размытые радиальные glow-пятна, цветные тени под кнопками, подсвеченные границы карточек при наведении. Система дерзкая, но не крикливая. Энергия передаётся цветом, дисплейной типографикой Unbounded и живым движением — никогда давлением на посетителя.",
+    "keyCharacteristics": [
+      "Одна тёмная сцена, один неоновый акцент — стратегия Committed: лайм узнаваем и дозирован",
+      "Свет как материал: glow, цветные тени, подсвеченные границы вместо серых теней",
+      "Широкая дисплейная типографика Unbounded с плотным интерлиньяжем (≤1.02) и отрицательным трекингом",
+      "Живые, отзывчивые компоненты: всё, что кликабельно, реагирует подъёмом и свечением",
+      "Слои через прозрачность: белые границы 7–12%, градиентные заливки 1–4% поверх чёрного"
+    ],
+    "rules": [
+      { "name": "Правило одного прожектора", "body": "Лайм — единственный насыщенный цвет на странице. Второй акцентный цвет запрещён; иерархия внутри акцента строится прозрачностью (100% → 35% → 12% → 6%), а не новым оттенком.", "section": "colors" },
+      { "name": "Правило светящегося акцента", "body": "Лайм не бывает плоским на крупных элементах: CTA несёт цветную тень, glow-пятна размыты на 30px. Если акцент выглядит как «просто зелёная заливка» — не хватает света.", "section": "colors" },
+      { "name": "Правило плотного дисплея", "body": "Unbounded всегда сжат: line-height ≤ 1.02, letter-spacing −0.01…−0.03em. Рыхлый Unbounded с обычным интерлиньяжем теряет плакатность.", "section": "typography" },
+      { "name": "Правило рабочего шрифта", "body": "Всё, что длиннее одной строки, набирается Manrope. Unbounded в основном тексте запрещён.", "section": "typography" },
+      { "name": "Правило цветного света", "body": "Тень может быть только лаймовой и только под акцентным элементом. Серые/чёрные box-shadow запрещены — глубина передаётся ступенями фона и границами.", "section": "elevation" }
+    ],
+    "dos": [
+      "Do держи лайм (#C4FA3B) единственным насыщенным цветом; иерархию строй его прозрачностями (100/35/12/6%).",
+      "Do давай акценту светиться: цветные тени под CTA, blur(30px) для glow-пятен, подсветка границ на hover.",
+      "Do держи текст на тёмном контрастным: основной текст ≥ 60% непрозрачности прожекторного белого, ниже 40% — запрещено.",
+      "Do отвечай на каждый hover: подъём 2–6px, смена границы или усиление свечения за 0.2–0.3s с cubic-bezier(.22,1,.36,1).",
+      "Do предусматривай prefers-reduced-motion: reduce для всего движения: marquee останавливается, reveal становится мгновенным, glow-пульсация замирает."
+    ],
+    "donts": [
+      "Don't — никакой «шаблонной Tilda-грамматики»: стоковые фото команд, одинаковые блоки «наши преимущества», типовые карточные сетки без характера.",
+      "Don't — никакой «корпоративной сухости»: сине-белая палитра, канцелярит в микрокопии, безликие иконки-клипарты.",
+      "Don't — никакой «инфоцыганщины»: таймеры обратного отсчёта, «осталось 2 места», красные стрелки, попапы давления. Единственная агрессия системы — её цвет.",
+      "Don't — не вводи второй акцентный цвет и не крась длинный текст лаймом.",
+      "Don't — не используй серые/чёрные box-shadow: глубина — это ступени фона, границы и лаймовый свет.",
+      "Don't — не набирай Unbounded основной текст и не разрыхляй его (lh > 1.1 в заголовках — ошибка).",
+      "Don't — не используй border-left/border-right толще 1px как цветную полоску на карточках и алертах."
+    ]
+  }
+}

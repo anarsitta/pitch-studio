@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;500;600;700;800;900&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { margin: 0; background: #0B0C0A; }
+  ::selection { background: #C4FA3B; color: #0B0C0A; }
+  @keyframes pitchMarquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes pitchGlow { 0%,100% { opacity: .5; transform: scale(1); } 50% { opacity: .85; transform: scale(1.12); } }
+  @keyframes pitchFloat { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-14px); } }
+  @keyframes pitchSpin { to { transform: rotate(360deg); } }
+  @keyframes pitchBlink { 0%,100% { opacity: 1; } 50% { opacity: .25; } }
+</style>
+</helmet>
+
+<div ref="{{ setRoot }}" style="background:#0B0C0A;color:#F4F6F1;font-family:'Manrope',-apple-system,sans-serif;font-size:17px;line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;position:relative;">
+
+  <!-- NAV -->
+  <header style="position:sticky;top:0;z-index:100;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(11,12,10,.72);border-bottom:1px solid rgba(255,255,255,.07);">
+    <div style="max-width:1240px;margin:0 auto;padding:16px 24px;display:flex;align-items:center;justify-content:space-between;gap:20px;">
+      <a href="#top" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:#F4F6F1;">
+        <span style="width:34px;height:34px;border-radius:9px;background:#C4FA3B;display:grid;place-items:center;font-family:'Unbounded';font-weight:800;color:#0B0C0A;font-size:20px;line-height:1;">П</span>
+        <span style="font-family:'Unbounded';font-weight:700;font-size:18px;letter-spacing:-.02em;">Питч Студио</span>
+      </a>
+      <nav style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end;">
+        <a href="#services" style="text-decoration:none;color:rgba(244,246,241,.62);font-weight:600;font-size:15px;padding:8px 12px;border-radius:8px;transition:color .2s;" style-hover="color:#F4F6F1;">Услуги</a>
+        <a href="#process" style="text-decoration:none;color:rgba(244,246,241,.62);font-weight:600;font-size:15px;padding:8px 12px;border-radius:8px;transition:color .2s;" style-hover="color:#F4F6F1;">Процесс</a>
+        <a href="#cases" style="text-decoration:none;color:rgba(244,246,241,.62);font-weight:600;font-size:15px;padding:8px 12px;border-radius:8px;transition:color .2s;" style-hover="color:#F4F6F1;">Кейсы</a>
+        <a href="#why" style="text-decoration:none;color:rgba(244,246,241,.62);font-weight:600;font-size:15px;padding:8px 12px;border-radius:8px;transition:color .2s;" style-hover="color:#F4F6F1;">Почему мы</a>
+        <a href="#contact" style="text-decoration:none;color:#0B0C0A;background:#C4FA3B;font-weight:700;font-size:15px;padding:10px 18px;border-radius:10px;margin-left:6px;transition:transform .2s,box-shadow .2s;box-shadow:0 0 0 rgba(196,250,59,0);" style-hover="transform:translateY(-2px);box-shadow:0 10px 28px rgba(196,250,59,.32);">Обсудить проект</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section id="top" style="position:relative;overflow:hidden;background:radial-gradient(circle at 82% 6%,rgba(196,250,59,.16),transparent 42%),radial-gradient(circle at 6% 90%,rgba(196,250,59,.07),transparent 40%),#0B0C0A;">
+    <div style="position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.035) 1px,transparent 1px);background-size:64px 64px;mask-image:radial-gradient(circle at 50% 30%,#000 30%,transparent 78%);-webkit-mask-image:radial-gradient(circle at 50% 30%,#000 30%,transparent 78%);pointer-events:none;"></div>
+    <div style="position:absolute;top:-140px;right:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(196,250,59,.28),transparent 62%);filter:blur(30px);animation:pitchGlow 7s ease-in-out infinite;pointer-events:none;"></div>
+
+    <div style="position:relative;max-width:1240px;margin:0 auto;padding:clamp(70px,11vw,140px) 24px clamp(56px,8vw,96px);">
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);display:inline-flex;align-items:center;gap:9px;padding:7px 15px;border:1px solid rgba(196,250,59,.35);border-radius:999px;background:rgba(196,250,59,.06);font-size:13.5px;font-weight:600;letter-spacing:.02em;color:#C4FA3B;margin-bottom:30px;">
+        <span style="width:7px;height:7px;border-radius:50%;background:#C4FA3B;animation:pitchBlink 1.6s ease-in-out infinite;"></span>
+        Маркетинговое агентство полного цикла
+      </div>
+
+      <h1 data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1) .08s,transform .8s cubic-bezier(.22,1,.36,1) .08s;font-family:'Unbounded';font-weight:800;font-size:clamp(2.5rem,7.6vw,6rem);line-height:.98;letter-spacing:-.03em;margin:0 0 26px;max-width:16ch;text-wrap:balance;">
+        Превращаем внимание рынка в&nbsp;<span style="color:#C4FA3B;position:relative;display:inline-block;min-width:4ch;">{{ rotWord }}</span>
+      </h1>
+
+      <p data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1) .16s,transform .8s cubic-bezier(.22,1,.36,1) .16s;font-size:clamp(1.05rem,2vw,1.35rem);color:rgba(244,246,241,.68);max-width:56ch;margin:0 0 40px;line-height:1.55;">
+        Реклама, соцсети, разработка, SEO и видеопродакшн — под одной крышей. Мы отвечаем за измеримый результат: рост охватов, снижение стоимости клиента и продажи, которые видно в цифрах.
+      </p>
+
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1) .24s,transform .8s cubic-bezier(.22,1,.36,1) .24s;display:flex;gap:14px;flex-wrap:wrap;align-items:center;">
+        <a href="#contact" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:#C4FA3B;color:#0B0C0A;font-weight:700;font-size:17px;padding:16px 28px;border-radius:13px;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 30px rgba(196,250,59,.22);" style-hover="transform:translateY(-3px);box-shadow:0 16px 44px rgba(196,250,59,.4);">
+          Обсудить проект
+          <span style="font-size:19px;line-height:1;">→</span>
+        </a>
+        <a href="#services" style="text-decoration:none;display:inline-flex;align-items:center;gap:10px;background:transparent;color:#F4F6F1;font-weight:600;font-size:17px;padding:16px 26px;border-radius:13px;border:1px solid rgba(255,255,255,.16);transition:border-color .2s,background .2s;" style-hover="border-color:rgba(196,250,59,.5);background:rgba(196,250,59,.05);">
+          Смотреть услуги
+        </a>
+      </div>
+
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1) .32s,transform .8s cubic-bezier(.22,1,.36,1) .32s;display:flex;gap:40px;flex-wrap:wrap;margin-top:56px;">
+        <div>
+          <div style="font-family:'Unbounded';font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);color:#C4FA3B;line-height:1;">6</div>
+          <div style="color:rgba(244,246,241,.55);font-size:14.5px;margin-top:6px;font-weight:500;">направлений<br>под одной крышей</div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,.1);"></div>
+        <div>
+          <div style="font-family:'Unbounded';font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);color:#C4FA3B;line-height:1;">Я+G</div>
+          <div style="color:rgba(244,246,241,.55);font-size:14.5px;margin-top:6px;font-weight:500;">работаем с Яндекс<br>и Google</div>
+        </div>
+        <div style="width:1px;background:rgba(255,255,255,.1);"></div>
+        <div>
+          <div style="font-family:'Unbounded';font-weight:700;font-size:clamp(1.8rem,4vw,2.6rem);color:#C4FA3B;line-height:1;">360°</div>
+          <div style="color:rgba(244,246,241,.55);font-size:14.5px;margin-top:6px;font-weight:500;">полный цикл<br>от идеи до масштаба</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- MARQUEE -->
+    <div style="position:relative;border-top:1px solid rgba(255,255,255,.07);border-bottom:1px solid rgba(255,255,255,.07);padding:18px 0;overflow:hidden;background:rgba(255,255,255,.012);">
+      <div style="display:flex;width:max-content;animation:pitchMarquee 32s linear infinite;">
+        <div style="display:flex;align-items:center;gap:0;padding-right:0;">{{ marqueeA }}</div>
+        <div style="display:flex;align-items:center;gap:0;padding-right:0;">{{ marqueeB }}</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section id="services" style="max-width:1240px;margin:0 auto;padding:clamp(70px,10vw,120px) 24px;">
+    <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);display:flex;justify-content:space-between;align-items:flex-end;gap:24px;flex-wrap:wrap;margin-bottom:52px;">
+      <div>
+        <div style="display:inline-flex;align-items:center;gap:8px;color:#C4FA3B;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px;">
+          <span style="width:22px;height:2px;background:#C4FA3B;"></span>Услуги
+        </div>
+        <h2 style="font-family:'Unbounded';font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.02;letter-spacing:-.03em;margin:0;max-width:16ch;">Всё для роста бизнеса в одном месте</h2>
+      </div>
+      <p style="color:rgba(244,246,241,.6);max-width:34ch;margin:0;font-size:16px;">Собираем нужные направления в единую систему, где каждый канал усиливает остальные.</p>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px;">
+      <sc-for list="{{ services }}" as="svc" hint-placeholder-count="6">
+        <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),border-color .3s,background .3s;position:relative;padding:32px 28px 30px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.08);overflow:hidden;" style-hover="border-color:rgba(196,250,59,.45);background:linear-gradient(180deg,rgba(196,250,59,.07),rgba(255,255,255,.015));transform:translateY(-6px);">
+          <div style="width:52px;height:52px;border-radius:13px;background:rgba(196,250,59,.12);border:1px solid rgba(196,250,59,.28);display:grid;place-items:center;color:#C4FA3B;margin-bottom:22px;">{{ svc.icon }}</div>
+          <div style="font-size:12px;font-weight:700;color:rgba(196,250,59,.75);letter-spacing:.06em;margin-bottom:9px;">{{ svc.num }}</div>
+          <h3 style="font-family:'Unbounded';font-weight:600;font-size:1.28rem;letter-spacing:-.01em;margin:0 0 12px;line-height:1.15;">{{ svc.title }}</h3>
+          <p style="color:rgba(244,246,241,.62);font-size:15.5px;margin:0;line-height:1.55;">{{ svc.desc }}</p>
+        </div>
+      </sc-for>
+    </div>
+  </section>
+
+  <!-- PROCESS -->
+  <section id="process" style="position:relative;background:linear-gradient(180deg,#0B0C0A,#0E100C);border-top:1px solid rgba(255,255,255,.06);border-bottom:1px solid rgba(255,255,255,.06);">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(70px,10vw,120px) 24px;">
+      <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);margin-bottom:56px;max-width:44ch;">
+        <div style="display:inline-flex;align-items:center;gap:8px;color:#C4FA3B;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px;">
+          <span style="width:22px;height:2px;background:#C4FA3B;"></span>Как мы работаем
+        </div>
+        <h2 style="font-family:'Unbounded';font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.02;letter-spacing:-.03em;margin:0;">Прозрачный процесс от брифа до масштаба</h2>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;">
+        <sc-for list="{{ steps }}" as="st" hint-placeholder-count="5">
+          <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1);position:relative;padding:26px 22px;border-radius:16px;background:rgba(255,255,255,.025);border:1px solid rgba(255,255,255,.08);">
+            <div style="font-family:'Unbounded';font-weight:800;font-size:2.4rem;line-height:1;color:transparent;-webkit-text-stroke:1.4px rgba(196,250,59,.55);margin-bottom:18px;">{{ st.num }}</div>
+            <h3 style="font-family:'Unbounded';font-weight:600;font-size:1.12rem;margin:0 0 10px;letter-spacing:-.01em;">{{ st.title }}</h3>
+            <p style="color:rgba(244,246,241,.6);font-size:14.5px;margin:0;line-height:1.5;">{{ st.desc }}</p>
+          </div>
+        </sc-for>
+      </div>
+    </div>
+  </section>
+
+  <!-- CASES -->
+  <section id="cases" style="max-width:1240px;margin:0 auto;padding:clamp(70px,10vw,120px) 24px;">
+    <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);margin-bottom:52px;">
+      <div style="display:inline-flex;align-items:center;gap:8px;color:#C4FA3B;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px;">
+        <span style="width:22px;height:2px;background:#C4FA3B;"></span>Кейсы и результаты
+      </div>
+      <h2 style="font-family:'Unbounded';font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.02;letter-spacing:-.03em;margin:0;max-width:18ch;">Считаем результат в деньгах, а не в лайках</h2>
+    </div>
+
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:18px;">
+      <sc-for list="{{ cases }}" as="c" hint-placeholder-count="4">
+        <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),transform .3s,border-color .3s;padding:30px 26px;border-radius:18px;background:linear-gradient(180deg,rgba(255,255,255,.035),rgba(255,255,255,.012));border:1px solid rgba(255,255,255,.08);transition-property:opacity,transform,border-color;" style-hover="border-color:rgba(196,250,59,.4);transform:translateY(-5px);">
+          <div style="display:flex;align-items:baseline;gap:2px;font-family:'Unbounded';font-weight:800;color:#C4FA3B;letter-spacing:-.02em;line-height:1;font-size:clamp(2.4rem,5vw,3.2rem);">
+            <span>{{ c.prefix }}</span><span data-count data-to="{{ c.to }}">0</span><span>{{ c.suffix }}</span>
+          </div>
+          <div style="font-weight:700;font-size:16px;margin:16px 0 6px;">{{ c.metric }}</div>
+          <p style="color:rgba(244,246,241,.58);font-size:14.5px;margin:0 0 18px;line-height:1.5;">{{ c.client }}</p>
+          <div style="display:flex;gap:7px;flex-wrap:wrap;">
+            <sc-for list="{{ c.tags }}" as="tag" hint-placeholder-count="2">
+              <span style="font-size:12.5px;font-weight:600;color:rgba(244,246,241,.7);padding:5px 11px;border-radius:999px;border:1px solid rgba(255,255,255,.12);">{{ tag }}</span>
+            </sc-for>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+    <p data-reveal style="opacity:0;transform:translateY(20px);transition:opacity .7s ease,transform .7s ease;color:rgba(244,246,241,.4);font-size:13px;margin:26px 0 0;">* Показатели приведены как обобщённые примеры проектов и служат иллюстрацией подхода.</p>
+  </section>
+
+  <!-- WHY US -->
+  <section id="why" style="position:relative;overflow:hidden;background:radial-gradient(circle at 90% 100%,rgba(196,250,59,.1),transparent 45%),#0E100C;border-top:1px solid rgba(255,255,255,.06);">
+    <div style="max-width:1240px;margin:0 auto;padding:clamp(70px,10vw,120px) 24px;">
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:start;">
+        <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);">
+          <div style="display:inline-flex;align-items:center;gap:8px;color:#C4FA3B;font-weight:700;font-size:14px;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px;">
+            <span style="width:22px;height:2px;background:#C4FA3B;"></span>Почему мы
+          </div>
+          <h2 style="font-family:'Unbounded';font-weight:700;font-size:clamp(2rem,4.6vw,3.4rem);line-height:1.02;letter-spacing:-.03em;margin:0 0 20px;">Одна команда вместо пяти подрядчиков</h2>
+          <p style="color:rgba(244,246,241,.62);font-size:16.5px;margin:0;max-width:42ch;line-height:1.6;">Стратегия, трафик, разработка и продакшн живут внутри агентства. Никаких потерь на стыках — только скорость и общая ответственность за результат.</p>
+        </div>
+        <div style="display:grid;gap:14px;">
+          <sc-for list="{{ advantages }}" as="a" hint-placeholder-count="4">
+            <div data-reveal style="opacity:0;transform:translateY(24px);transition:opacity .7s cubic-bezier(.22,1,.36,1),transform .7s cubic-bezier(.22,1,.36,1),border-color .3s;display:flex;gap:18px;align-items:flex-start;padding:22px 24px;border-radius:15px;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.08);" style-hover="border-color:rgba(196,250,59,.4);">
+              <div style="flex-shrink:0;width:40px;height:40px;border-radius:11px;background:#C4FA3B;color:#0B0C0A;display:grid;place-items:center;font-family:'Unbounded';font-weight:800;font-size:17px;">{{ a.mark }}</div>
+              <div>
+                <h3 style="font-family:'Unbounded';font-weight:600;font-size:1.08rem;margin:0 0 6px;letter-spacing:-.01em;">{{ a.title }}</h3>
+                <p style="color:rgba(244,246,241,.6);font-size:14.5px;margin:0;line-height:1.5;">{{ a.desc }}</p>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA / FORM -->
+  <section id="contact" style="max-width:1240px;margin:0 auto;padding:clamp(70px,10vw,120px) 24px;">
+    <div style="position:relative;overflow:hidden;border-radius:28px;background:radial-gradient(circle at 85% 0%,rgba(196,250,59,.18),transparent 50%),linear-gradient(180deg,#141712,#0E100C);border:1px solid rgba(255,255,255,.09);padding:clamp(36px,6vw,72px);">
+      <div style="position:absolute;top:-90px;right:-90px;width:340px;height:340px;border-radius:50%;background:radial-gradient(circle,rgba(196,250,59,.22),transparent 62%);filter:blur(30px);animation:pitchGlow 8s ease-in-out infinite;pointer-events:none;"></div>
+      <div style="position:relative;display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:48px;align-items:center;">
+        <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1),transform .8s cubic-bezier(.22,1,.36,1);">
+          <h2 style="font-family:'Unbounded';font-weight:800;font-size:clamp(2rem,4.8vw,3.5rem);line-height:1;letter-spacing:-.03em;margin:0 0 20px;">Обсудим ваш проект?</h2>
+          <p style="color:rgba(244,246,241,.66);font-size:17px;margin:0 0 28px;max-width:40ch;line-height:1.6;">Расскажите о задаче — вернёмся с планом и оценкой в течение рабочего дня. Без обязательств и навязчивых звонков.</p>
+          <div style="display:flex;flex-direction:column;gap:12px;">
+            <a href="tel:+70000000000" style="text-decoration:none;color:#F4F6F1;display:inline-flex;align-items:center;gap:12px;font-weight:600;font-size:16px;" style-hover="color:#C4FA3B;">
+              <span style="width:38px;height:38px;border-radius:10px;background:rgba(196,250,59,.1);border:1px solid rgba(196,250,59,.25);display:grid;place-items:center;color:#C4FA3B;font-size:16px;">✆</span>
+              +7 (000) 000-00-00
+            </a>
+            <a href="mailto:hello@pitch.studio" style="text-decoration:none;color:#F4F6F1;display:inline-flex;align-items:center;gap:12px;font-weight:600;font-size:16px;" style-hover="color:#C4FA3B;">
+              <span style="width:38px;height:38px;border-radius:10px;background:rgba(196,250,59,.1);border:1px solid rgba(196,250,59,.25);display:grid;place-items:center;color:#C4FA3B;font-size:15px;">@</span>
+              hello@pitch.studio
+            </a>
+          </div>
+        </div>
+
+        <div data-reveal style="opacity:0;transform:translateY(30px);transition:opacity .8s cubic-bezier(.22,1,.36,1) .1s,transform .8s cubic-bezier(.22,1,.36,1) .1s;">
+          <sc-if value="{{ sent }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:44px 34px;border-radius:20px;background:rgba(196,250,59,.08);border:1px solid rgba(196,250,59,.35);text-align:center;">
+              <div style="width:64px;height:64px;margin:0 auto 20px;border-radius:50%;background:#C4FA3B;color:#0B0C0A;display:grid;place-items:center;font-size:32px;font-weight:800;">✓</div>
+              <h3 style="font-family:'Unbounded';font-weight:700;font-size:1.5rem;margin:0 0 10px;">Заявка принята!</h3>
+              <p style="color:rgba(244,246,241,.68);margin:0;font-size:15.5px;">Спасибо, {{ sentName }}. Мы свяжемся с вами в течение рабочего дня.</p>
+              <button onClick="{{ reset }}" style="margin-top:24px;background:transparent;border:1px solid rgba(255,255,255,.18);color:#F4F6F1;font-family:'Manrope';font-weight:600;font-size:15px;padding:11px 22px;border-radius:11px;cursor:pointer;transition:border-color .2s;" style-hover="border-color:rgba(196,250,59,.5);">Отправить ещё одну</button>
+            </div>
+          </sc-if>
+
+          <sc-if value="{{ notSent }}" hint-placeholder-val="{{ true }}">
+            <form onSubmit="{{ onSubmit }}" novalidate="true" style="display:flex;flex-direction:column;gap:16px;padding:30px 28px;border-radius:20px;background:rgba(11,12,10,.5);border:1px solid rgba(255,255,255,.1);">
+              <div>
+                <label style="display:block;font-size:13.5px;font-weight:600;color:rgba(244,246,241,.7);margin-bottom:8px;">Как вас зовут *</label>
+                <input value="{{ fName }}" onInput="{{ setName }}" type="text" placeholder="Иван Петров" style="width:100%;background:rgba(255,255,255,.04);border:1px solid {{ nameBorder }};border-radius:12px;padding:14px 16px;color:#F4F6F1;font-family:'Manrope';font-size:16px;outline:none;transition:border-color .2s;" style-focus="border-color:#C4FA3B;" />
+                <sc-if value="{{ errName }}" hint-placeholder-val="{{ false }}"><div style="color:#FF7A6B;font-size:13px;margin-top:7px;font-weight:500;">{{ errName }}</div></sc-if>
+              </div>
+              <div>
+                <label style="display:block;font-size:13.5px;font-weight:600;color:rgba(244,246,241,.7);margin-bottom:8px;">Телефон или мессенджер *</label>
+                <input value="{{ fContact }}" onInput="{{ setContact }}" type="text" placeholder="+7 999 000-00-00 или @telegram" style="width:100%;background:rgba(255,255,255,.04);border:1px solid {{ contactBorder }};border-radius:12px;padding:14px 16px;color:#F4F6F1;font-family:'Manrope';font-size:16px;outline:none;transition:border-color .2s;" style-focus="border-color:#C4FA3B;" />
+                <sc-if value="{{ errContact }}" hint-placeholder-val="{{ false }}"><div style="color:#FF7A6B;font-size:13px;margin-top:7px;font-weight:500;">{{ errContact }}</div></sc-if>
+              </div>
+              <div>
+                <label style="display:block;font-size:13.5px;font-weight:600;color:rgba(244,246,241,.7);margin-bottom:8px;">Опишите задачу</label>
+                <textarea value="{{ fTask }}" onInput="{{ setTask }}" rows="3" placeholder="Что хотите продвигать и какого результата ждёте?" style="width:100%;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.12);border-radius:12px;padding:14px 16px;color:#F4F6F1;font-family:'Manrope';font-size:16px;outline:none;resize:vertical;min-height:88px;transition:border-color .2s;" style-focus="border-color:#C4FA3B;"></textarea>
+              </div>
+              <button type="submit" style="margin-top:4px;background:#C4FA3B;color:#0B0C0A;font-family:'Manrope';font-weight:700;font-size:17px;padding:16px;border:none;border-radius:13px;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 8px 26px rgba(196,250,59,.2);" style-hover="transform:translateY(-2px);box-shadow:0 14px 40px rgba(196,250,59,.36);">Отправить заявку →</button>
+              <p style="color:rgba(244,246,241,.4);font-size:12.5px;margin:2px 0 0;text-align:center;">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
+            </form>
+          </sc-if>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer style="border-top:1px solid rgba(255,255,255,.07);background:#0A0B09;">
+    <div style="max-width:1240px;margin:0 auto;padding:56px 24px 32px;display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:40px;">
+      <div style="min-width:240px;">
+        <a href="#top" style="display:flex;align-items:center;gap:11px;text-decoration:none;color:#F4F6F1;margin-bottom:16px;">
+          <span style="width:34px;height:34px;border-radius:9px;background:#C4FA3B;display:grid;place-items:center;font-family:'Unbounded';font-weight:800;color:#0B0C0A;font-size:20px;line-height:1;">П</span>
+          <span style="font-family:'Unbounded';font-weight:700;font-size:18px;letter-spacing:-.02em;">Питч Студио</span>
+        </a>
+        <p style="color:rgba(244,246,241,.5);font-size:14.5px;margin:0;max-width:34ch;line-height:1.55;">Маркетинговое агентство полного цикла. Продвигаем сайты и продукты — от стратегии до результата.</p>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:rgba(244,246,241,.45);margin-bottom:16px;">Навигация</div>
+        <div style="display:flex;flex-direction:column;gap:11px;">
+          <a href="#services" style="text-decoration:none;color:rgba(244,246,241,.72);font-size:15px;font-weight:500;transition:color .2s;" style-hover="color:#C4FA3B;">Услуги</a>
+          <a href="#process" style="text-decoration:none;color:rgba(244,246,241,.72);font-size:15px;font-weight:500;transition:color .2s;" style-hover="color:#C4FA3B;">Как мы работаем</a>
+          <a href="#cases" style="text-decoration:none;color:rgba(244,246,241,.72);font-size:15px;font-weight:500;transition:color .2s;" style-hover="color:#C4FA3B;">Кейсы</a>
+          <a href="#contact" style="text-decoration:none;color:rgba(244,246,241,.72);font-size:15px;font-weight:500;transition:color .2s;" style-hover="color:#C4FA3B;">Контакты</a>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:rgba(244,246,241,.45);margin-bottom:16px;">Контакты</div>
+        <div style="display:flex;flex-direction:column;gap:11px;">
+          <a href="tel:+70000000000" style="text-decoration:none;color:rgba(244,246,241,.72);font-size:15px;font-weight:500;transition:color .2s;" style-hover="color:#C4FA3B;">+7 (000) 000-00-00</a>
+          <a href="mailto:hello@pitch.studio" style="text-decoration:none;color:rgba(244,246,241,.72);font-size:15px;font-weight:500;transition:color .2s;" style-hover="color:#C4FA3B;">hello@pitch.studio</a>
+          <span style="color:rgba(244,246,241,.5);font-size:14px;">Москва, работаем по всей России</span>
+        </div>
+      </div>
+      <div>
+        <div style="font-weight:700;font-size:13px;letter-spacing:.06em;text-transform:uppercase;color:rgba(244,246,241,.45);margin-bottom:16px;">Соцсети</div>
+        <div style="display:flex;gap:10px;flex-wrap:wrap;">
+          <a href="#" style="text-decoration:none;display:grid;place-items:center;width:42px;height:42px;border-radius:11px;border:1px solid rgba(255,255,255,.12);color:rgba(244,246,241,.8);font-weight:700;font-size:13px;transition:border-color .2s,color .2s,background .2s;" style-hover="border-color:rgba(196,250,59,.5);color:#C4FA3B;background:rgba(196,250,59,.06);">VK</a>
+          <a href="#" style="text-decoration:none;display:grid;place-items:center;width:42px;height:42px;border-radius:11px;border:1px solid rgba(255,255,255,.12);color:rgba(244,246,241,.8);font-weight:700;font-size:13px;transition:border-color .2s,color .2s,background .2s;" style-hover="border-color:rgba(196,250,59,.5);color:#C4FA3B;background:rgba(196,250,59,.06);">TG</a>
+          <a href="#" style="text-decoration:none;display:grid;place-items:center;width:42px;height:42px;border-radius:11px;border:1px solid rgba(255,255,255,.12);color:rgba(244,246,241,.8);font-weight:700;font-size:13px;transition:border-color .2s,color .2s,background .2s;" style-hover="border-color:rgba(196,250,59,.5);color:#C4FA3B;background:rgba(196,250,59,.06);">YT</a>
+        </div>
+      </div>
+    </div>
+    <div style="max-width:1240px;margin:0 auto;padding:22px 24px 40px;border-top:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap;color:rgba(244,246,241,.4);font-size:13.5px;">
+      <span>© 2026 ООО «Питч Студио». Все права защищены.</span>
+      <span>ИНН 0000000000 · ОГРН 0000000000000</span>
+    </div>
+  </footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    rotWord: "рост",
+    fName: "", fContact: "", fTask: "",
+    errName: "", errContact: "",
+    sent: false, sentName: ""
+  };
+
+  componentDidMount() {
+    const words = ["рост", "продажи", "охваты", "заявки", "узнаваемость"];
+    this._i = 0;
+    this._rot = setInterval(() => {
+      this._i = (this._i + 1) % words.length;
+      this.setState({ rotWord: words[this._i] });
+    }, 2200);
+    requestAnimationFrame(() => this._observe());
+  }
+
+  componentWillUnmount() { clearInterval(this._rot); }
+
+  _observe() {
+    const root = this._root || document;
+    const io = new IntersectionObserver((ents) => {
+      ents.forEach((e) => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = "1";
+          e.target.style.transform = "none";
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.12, rootMargin: "0px 0px -6% 0px" });
+    root.querySelectorAll("[data-reveal]").forEach((el) => io.observe(el));
+
+    const io2 = new IntersectionObserver((ents) => {
+      ents.forEach((e) => {
+        if (e.isIntersecting) { this._countUp(e.target); io2.unobserve(e.target); }
+      });
+    }, { threshold: 0.5 });
+    root.querySelectorAll("[data-count]").forEach((el) => io2.observe(el));
+  }
+
+  _countUp(el) {
+    const to = parseFloat(el.getAttribute("data-to"));
+    const dur = 1500, start = performance.now();
+    const step = (now) => {
+      const t = Math.min(1, (now - start) / dur);
+      const e = 1 - Math.pow(1 - t, 3);
+      el.textContent = Math.round(to * e).toLocaleString("ru-RU");
+      if (t < 1) requestAnimationFrame(step);
+      else el.textContent = to.toLocaleString("ru-RU");
+    };
+    requestAnimationFrame(step);
+  }
+
+  _validate() {
+    const errName = this.state.fName.trim().length < 2 ? "Пожалуйста, укажите имя" : "";
+    const errContact = this.state.fContact.trim().length < 4 ? "Укажите телефон или мессенджер для связи" : "";
+    this.setState({ errName, errContact });
+    return !errName && !errContact;
+  }
+
+  renderVals() {
+    const svc = (path) => React.createElement("svg", { width: 26, height: 26, viewBox: "0 0 24 24", fill: "none", stroke: "currentColor", strokeWidth: 1.8, strokeLinecap: "round", strokeLinejoin: "round" }, path);
+    const h = React.createElement;
+    const services = [
+      { num: "01", title: "Таргет и контекст", icon: svc([h("circle",{key:1,cx:12,cy:12,r:9}),h("circle",{key:2,cx:12,cy:12,r:5}),h("circle",{key:3,cx:12,cy:12,r:1.4,fill:"currentColor"})]),
+        desc: "Настраиваем рекламу, которая приводит клиентов, а не пустые показы. Считаем каждую заявку и снижаем её стоимость от недели к неделе." },
+      { num: "02", title: "Соцсети и мессенджеры", icon: svc([h("path",{key:1,d:"M21 11.5a8.4 8.4 0 0 1-8.5 8.5 9 9 0 0 1-3.8-.8L3 21l1.8-5.2A8.4 8.4 0 0 1 4 11.5 8.5 8.5 0 1 1 21 11.5Z"})]),
+        desc: "Ведём соцсети и мессенджеры так, чтобы аудитория оставалась и покупала. Контент, комьюнити и продажи работают в одной связке." },
+      { num: "03", title: "Работа с инфополем", icon: svc([h("circle",{key:1,cx:12,cy:12,r:2.5}),h("path",{key:2,d:"M5.5 5.5a9 9 0 0 0 0 13M18.5 5.5a9 9 0 0 1 0 13M3 3a13 13 0 0 0 0 18M21 3a13 13 0 0 1 0 18"})]),
+        desc: "Формируем узнаваемость бренда и удерживаем внимание рынка на вас. PR, публикации и репутация, которая работает на продажи." },
+      { num: "04", title: "Разработка", icon: svc([h("path",{key:1,d:"m8 8-4 4 4 4M16 8l4 4-4 4M14 6l-4 12"})]),
+        desc: "Проектируем и собираем сайты, мини-приложения, мобильные приложения (APK) и ПО. Быстрые, стабильные продукты, готовые к нагрузке." },
+      { num: "05", title: "SEO и GEO-аналитика", icon: svc([h("circle",{key:1,cx:11,cy:11,r:7}),h("path",{key:2,d:"m20 20-3.5-3.5"})]),
+        desc: "Растим органический трафик в Яндексе и Google. Работаем с алгоритмами и геоданными, чтобы вас находили первыми по нужным запросам." },
+      { num: "06", title: "Видеопродакшн", icon: svc([h("rect",{key:1,x:3,y:5,width:14,height:14,rx:3}),h("path",{key:2,d:"m21 8-4 4 4 4V8Z"}),h("path",{key:3,d:"M8 9.5v5l4-2.5-4-2.5Z",fill:"currentColor",stroke:"none"})]),
+        desc: "Производим видео, которое досматривают: от рекламных роликов до контента для соцсетей. Идея, съёмка и монтаж под ключ." }
+    ];
+
+    const steps = [
+      { num: "01", title: "Бриф", desc: "Погружаемся в ваш бизнес, цели и рынок. Фиксируем метрики, по которым будем измерять результат." },
+      { num: "02", title: "Стратегия", desc: "Собираем медиаплан и гипотезы. Определяем каналы, бюджеты и точки роста." },
+      { num: "03", title: "Запуск", desc: "Запускаем кампании и продукты. Быстрый старт без потери качества." },
+      { num: "04", title: "Аналитика", desc: "Следим за каждой метрикой в реальном времени. Отключаем то, что не работает, усиливаем то, что приносит результат." },
+      { num: "05", title: "Масштабирование", desc: "Наращиваем то, что даёт прибыль, и выводим показатели на новый уровень." }
+    ];
+
+    const cases = [
+      { prefix: "+", to: 312, suffix: "%", metric: "Рост охватов за 3 месяца", client: "Бренд товаров для дома", tags: ["Таргет", "SMM"] },
+      { prefix: "−", to: 41, suffix: "%", metric: "Снижение стоимости лида", client: "Онлайн-школа профессий", tags: ["Контекст", "Посадочные"] },
+      { prefix: "", to: 480, suffix: "%", metric: "ROI performance-кампаний", client: "B2B-сервис автоматизации", tags: ["Performance", "SEO"] },
+      { prefix: "", to: 1.2, suffix: " млн", metric: "Просмотров видеокампании", client: "Сеть локального ритейла", tags: ["Видео", "Посевы"] }
+    ];
+
+    const advantages = [
+      { mark: "01", title: "Полный цикл", desc: "От стратегии до продакшена — всё в одной команде, без потерь на передаче между подрядчиками." },
+      { mark: "02", title: "Яндекс и Google", desc: "Уверенно работаем с обеими экосистемами: реклама, SEO и аналитика под алгоритмы каждой." },
+      { mark: "03", title: "Собственная разработка", desc: "Сайты, приложения и ПО делаем сами — быстрее запуск и полный контроль качества." },
+      { mark: "04", title: "Видеопродакшн", desc: "Свой продакшн и монтаж: контент для рекламы и соцсетей без внешних студий." }
+    ];
+
+    const kw = ["Таргет", "Контекст", "SMM", "Мессенджеры", "SEO", "GEO-аналитика", "Разработка", "Приложения", "Видеопродакшн", "Брендинг", "PR"];
+    const strip = kw.map((w, i) => h(React.Fragment, { key: i }, [
+      h("span", { key: "d", style: { width: 6, height: 6, borderRadius: "50%", background: "#C4FA3B", margin: "0 28px", flexShrink: 0 } }),
+      h("span", { key: "w", style: { fontFamily: "'Unbounded'", fontWeight: 500, fontSize: "clamp(1rem,2.4vw,1.5rem)", color: "rgba(244,246,241,.82)", whiteSpace: "nowrap", letterSpacing: "-.01em" } }, w)
+    ]));
+
+    return {
+      setRoot: (el) => { this._root = el; },
+      rotWord: this.state.rotWord,
+      services, steps, cases, advantages,
+      marqueeA: h("div", { style: { display: "flex", alignItems: "center" } }, strip),
+      marqueeB: h("div", { style: { display: "flex", alignItems: "center" } }, strip),
+      fName: this.state.fName, fContact: this.state.fContact, fTask: this.state.fTask,
+      errName: this.state.errName, errContact: this.state.errContact,
+      nameBorder: this.state.errName ? "#FF7A6B" : "rgba(255,255,255,.12)",
+      contactBorder: this.state.errContact ? "#FF7A6B" : "rgba(255,255,255,.12)",
+      setName: (e) => this.setState({ fName: e.target.value, errName: "" }),
+      setContact: (e) => this.setState({ fContact: e.target.value, errContact: "" }),
+      setTask: (e) => this.setState({ fTask: e.target.value }),
+      sent: this.state.sent,
+      notSent: !this.state.sent,
+      sentName: this.state.sentName,
+      onSubmit: (e) => {
+        e.preventDefault();
+        if (this._validate()) this.setState({ sent: true, sentName: this.state.fName.trim() });
+      },
+      reset: () => this.setState({ sent: false, fName: "", fContact: "", fTask: "", sentName: "" })
+    };
+  }
+}
+</script>
+</body>
+</html>

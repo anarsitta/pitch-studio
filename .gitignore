@@ -1,0 +1,15 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Local tooling state
+.impeccable/config.local.json
+
+# Archives / source dumps
+*.zip
+
+# OS / editor
+.DS_Store
+*.log
