@@ -34,6 +34,14 @@ const services = [
     desc: 'Производим видео, которое досматривают: от рекламных роликов до контента для соцсетей. Идея, съёмка и монтаж под ключ.'
   }
 ]
+
+// Mouse-following spotlight: write cursor position into CSS vars per card.
+function spotlight(e) {
+  const el = e.currentTarget
+  const r = el.getBoundingClientRect()
+  el.style.setProperty('--mx', `${e.clientX - r.left}px`)
+  el.style.setProperty('--my', `${e.clientY - r.top}px`)
+}
 </script>
 
 <template>
@@ -45,8 +53,15 @@ const services = [
       <p class="section-note">Собираем нужные направления в единую систему, где каждый канал усиливает остальные.</p>
     </div>
 
-    <div class="grid">
-      <div v-for="(svc, i) in services" :key="svc.title" v-reveal="i" class="reveal card">
+    <div class="bento">
+      <div
+        v-for="(svc, i) in services"
+        :key="svc.title"
+        v-reveal="i"
+        class="reveal card"
+        :class="{ 'card--large': i === 0 || i === 4 }"
+        @mousemove="spotlight"
+      >
         <div class="card-icon" v-html="svc.icon" aria-hidden="true"></div>
         <h3 class="card-title">{{ svc.title }}</h3>
         <p class="card-desc">{{ svc.desc }}</p>
@@ -59,7 +74,7 @@ const services = [
 .services {
   max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(70px, 10vw, 120px) 24px;
+  padding: var(--pad-section) 24px;
 }
 
 .reveal.is-armed { opacity: 0; transform: translateY(30px); }
@@ -72,7 +87,7 @@ const services = [
   align-items: flex-end;
   gap: 24px;
   flex-wrap: wrap;
-  margin-bottom: 52px;
+  margin-bottom: 44px;
 }
 .section-title {
   font-family: var(--font-display);
@@ -91,25 +106,58 @@ const services = [
   font-size: 16px;
 }
 
-.grid {
+/* Bento: 4-col grid, two cards span 2 columns (large), no gaps. */
+.bento {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 18px;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
 }
 .card {
   transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), border-color .3s, background .3s;
   position: relative;
-  padding: 32px 28px 30px;
-  border-radius: 18px;
+  padding: 30px 28px;
+  border-radius: 20px;
   background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012));
   border: 1px solid rgba(255, 255, 255, .08);
   overflow: hidden;
+  isolation: isolate;
 }
-.card:hover {
-  border-color: rgba(var(--c-accent-rgb), .45);
-  background: linear-gradient(180deg, rgba(var(--c-accent-rgb), .07), rgba(255, 255, 255, .015));
-  transform: translateY(-6px);
+.card--large {
+  grid-column: span 2;
+  display: flex;
+  flex-direction: column;
 }
+.card--large .card-desc { max-width: 46ch; }
+
+/* Interior spotlight fill that follows the cursor */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: radial-gradient(220px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--c-accent-rgb), .12), transparent 60%);
+  opacity: 0;
+  transition: opacity .3s var(--ease-out);
+}
+/* Lime border that lights up near the cursor (masked 1px ring) */
+.card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: radial-gradient(160px circle at var(--mx, 50%) var(--my, 0%), rgba(var(--c-accent-rgb), .9), transparent 65%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity .3s var(--ease-out);
+  pointer-events: none;
+}
+.card:hover { transform: translateY(-4px); }
+.card:hover::before,
+.card:hover::after { opacity: 1; }
+
 .card-icon {
   width: 52px;
   height: 52px;
@@ -121,6 +169,10 @@ const services = [
   color: var(--c-accent);
   margin-bottom: 22px;
 }
+.card--large .card-icon {
+  width: 58px;
+  height: 58px;
+}
 .card-title {
   font-family: var(--font-display);
   font-weight: 600;
@@ -129,10 +181,21 @@ const services = [
   margin: 0 0 12px;
   line-height: 1.15;
 }
+.card--large .card-title { font-size: 1.55rem; }
 .card-desc {
   color: rgba(var(--c-fg-rgb), .62);
   font-size: 15.5px;
   margin: 0;
   line-height: 1.55;
+}
+
+@media (max-width: 899px) {
+  .bento { grid-template-columns: repeat(2, 1fr); }
+  .card--large { grid-column: span 2; }
+}
+@media (max-width: 560px) {
+  .bento { grid-template-columns: 1fr; }
+  .card--large { grid-column: span 1; }
+  .card--large .card-title { font-size: 1.28rem; }
 }
 </style>

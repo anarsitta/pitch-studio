@@ -2,7 +2,7 @@
 const navLinks = [
   { href: '#services', label: 'Услуги' },
   { href: '#process', label: 'Как мы работаем' },
-  { href: '#cases', label: 'Кейсы' },
+  { href: '#cases', label: 'Результат' },
   { href: '#contact', label: 'Контакты' }
 ]
 const socials = ['VK', 'TG', 'YT']
@@ -26,9 +26,10 @@ const socials = ['VK', 'TG', 'YT']
       </div>
       <div>
         <div class="col-title">Контакты</div>
+        <!-- STUB: замените на реальные контакты перед запуском -->
         <div class="col-links">
-          <a href="tel:+70000000000" class="footer-link">+7 (000) 000-00-00</a>
-          <a href="mailto:hello@pitch.studio" class="footer-link">hello@pitch.studio</a>
+          <a href="tel:+74951234567" class="footer-link">+7 (495) 123-45-67</a>
+          <a href="mailto:hello@pitchstudio.ru" class="footer-link">hello@pitchstudio.ru</a>
           <span class="col-note">Москва, работаем по всей России</span>
         </div>
       </div>

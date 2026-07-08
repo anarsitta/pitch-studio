@@ -1,29 +1,29 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
 
-const words = ['рост', 'продажи', 'охваты', 'заявки', 'узнаваемость']
+// Last word of the heading rotates with a vertical flip. Kept to 4 short words
+// so the huge display type never overflows the container.
+const words = ['охваты', 'заявки', 'продажи', 'выручку']
 const rotWord = ref(words[0])
 let index = 0
 let timer = null
 
-// One switch governs both continuous animations (marquee + rotating word) so
-// keyboard and touch users have a WCAG 2.2.2 pause mechanism, not just hover.
+// One switch is the WCAG 2.2.2 pause mechanism for all continuous motion
+// (rotating word + marquee + ambient glows), not just hover.
 const paused = ref(false)
 function toggleMotion() {
   paused.value = !paused.value
-  // Freeze every ambient CSS animation (marquee, glow, blink) too, so the
-  // control genuinely stops all page movement, not just the marquee.
   document.documentElement.classList.toggle('motion-paused', paused.value)
 }
 
 onMounted(() => {
-  // Reduced motion: hold a single word instead of cycling auto-updating content.
+  // Reduced motion: hold one word, no auto-updating flip.
   if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return
   timer = setInterval(() => {
     if (paused.value) return
     index = (index + 1) % words.length
     rotWord.value = words[index]
-  }, 2200)
+  }, 2400)
 })
 onUnmounted(() => {
   clearInterval(timer)
@@ -31,12 +31,6 @@ onUnmounted(() => {
 })
 
 const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессенджеры', 'SEO', 'GEO-аналитика', 'Разработка', 'Приложения', 'Видеопродакшн', 'Брендинг', 'PR']
-
-const stats = [
-  { value: '6', label: 'направлений<br>под одной крышей' },
-  { value: 'Я+G', label: 'работаем с Яндекс<br>и Google' },
-  { value: '360°', label: 'полный цикл<br>от идеи до масштаба' }
-]
 </script>
 
 <template>
@@ -45,17 +39,22 @@ const stats = [
     <div class="hero-glow" aria-hidden="true"></div>
 
     <div class="hero-inner">
-      <div v-reveal="0" class="reveal badge">
-        <span class="badge-dot"></span>
+      <p v-reveal="0" class="reveal hero-overline">
+        <span class="overline-dot" aria-hidden="true"></span>
         Маркетинговое агентство полного цикла
-      </div>
+      </p>
 
       <h1 v-reveal="1" class="reveal hero-title">
-        Превращаем внимание рынка в&nbsp;<span class="rot-word">{{ rotWord }}</span>
+        Превращаем внимание рынка в
+        <span class="flip-wrap">
+          <Transition name="flip" mode="out-in">
+            <span :key="rotWord" class="rot-word">{{ rotWord }}</span>
+          </Transition>
+        </span>
       </h1>
 
       <p v-reveal="2" class="reveal hero-lead">
-        Реклама, соцсети, разработка, SEO и видеопродакшн — под одной крышей. Мы отвечаем за измеримый результат: рост охватов, снижение стоимости клиента и продажи, которые видно в цифрах.
+        Реклама, соцсети, разработка, SEO и видео — под одной крышей. Отвечаем за результат, который видно в цифрах.
       </p>
 
       <div v-reveal="3" class="reveal hero-ctas">
@@ -63,26 +62,15 @@ const stats = [
           Обсудить проект
           <span class="btn-arrow" aria-hidden="true">→</span>
         </a>
-        <a href="#services" class="btn-ghost">
-          Смотреть услуги
-        </a>
+        <a href="#services" class="btn-ghost">Смотреть услуги</a>
       </div>
 
-      <div v-reveal="4" class="reveal hero-stats">
-        <template v-for="(stat, i) in stats" :key="stat.value">
-          <div v-if="i > 0" class="stat-divider"></div>
-          <div>
-            <div class="stat-value">{{ stat.value }}</div>
-            <div class="stat-label" v-html="stat.label"></div>
-          </div>
-        </template>
-      </div>
     </div>
 
     <!-- MARQUEE -->
     <div class="marquee" :class="{ 'is-paused': paused }">
       <div class="marquee-track">
-        <div v-for="n in 2" :key="n" class="marquee-strip">
+        <div v-for="n in 2" :key="n" class="marquee-strip" :aria-hidden="n === 2 ? 'true' : undefined">
           <template v-for="(word, i) in keywords" :key="i">
             <span class="marquee-dot"></span>
             <span class="marquee-word">{{ word }}</span>
@@ -113,10 +101,11 @@ const stats = [
   position: relative;
   overflow: hidden;
   background:
-    radial-gradient(circle at 82% 6%, rgba(var(--c-accent-rgb), .16), transparent 42%),
-    radial-gradient(circle at 6% 90%, rgba(var(--c-accent-rgb), .07), transparent 40%),
+    radial-gradient(circle at 82% 4%, rgba(var(--c-accent-rgb), .16), transparent 44%),
+    radial-gradient(circle at 4% 92%, rgba(var(--c-accent-rgb), .07), transparent 42%),
     var(--c-bg);
 }
+/* Subtle grid with a radial fade to the centre */
 .hero-grid {
   position: absolute;
   inset: 0;
@@ -124,18 +113,18 @@ const stats = [
     linear-gradient(rgba(255, 255, 255, .035) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, .035) 1px, transparent 1px);
   background-size: 64px 64px;
-  mask-image: radial-gradient(circle at 50% 30%, #000 30%, transparent 78%);
-  -webkit-mask-image: radial-gradient(circle at 50% 30%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(circle at 50% 34%, #000 26%, transparent 74%);
+  -webkit-mask-image: radial-gradient(circle at 50% 34%, #000 26%, transparent 74%);
   pointer-events: none;
 }
 .hero-glow {
   position: absolute;
-  top: -140px;
+  top: -160px;
   right: -120px;
-  width: 520px;
-  height: 520px;
+  width: 560px;
+  height: 560px;
   border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--c-accent-rgb), .28), transparent 62%);
+  background: radial-gradient(circle, rgba(var(--c-accent-rgb), .26), transparent 62%);
   filter: blur(30px);
   animation: pitchGlow 7s ease-in-out infinite;
   pointer-events: none;
@@ -144,7 +133,7 @@ const stats = [
   position: relative;
   max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(70px, 11vw, 140px) 24px clamp(56px, 8vw, 96px);
+  padding: clamp(52px, 8vw, 104px) 24px clamp(72px, 10vw, 120px);
 }
 
 .reveal {
@@ -153,49 +142,64 @@ const stats = [
 .reveal.is-armed { opacity: 0; transform: translateY(30px); }
 .reveal.is-armed.is-visible { opacity: 1; transform: none; }
 
-.badge {
+.hero-overline {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
-  padding: 7px 15px;
-  border: 1px solid rgba(var(--c-accent-rgb), .35);
-  border-radius: 999px;
-  background: rgba(var(--c-accent-rgb), .06);
-  font-size: 13.5px;
+  gap: 10px;
+  margin: 0 0 24px;
+  font-size: 12.5px;
   font-weight: 600;
-  letter-spacing: .02em;
-  color: var(--c-accent);
-  margin-bottom: 30px;
+  letter-spacing: .2em;
+  text-transform: uppercase;
+  color: rgba(var(--c-fg-rgb), .6);
 }
-.badge-dot {
-  width: 7px;
-  height: 7px;
+.overline-dot {
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: var(--c-accent);
+  flex-shrink: 0;
   animation: pitchBlink 1.6s ease-in-out infinite;
 }
 
+/* Full-width huge display heading */
 .hero-title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2.5rem, 7.6vw, 6rem);
-  line-height: .98;
-  letter-spacing: -.03em;
-  margin: 0 0 26px;
-  max-width: 16ch;
+  /* 10.5vw (not 11vw) keeps ~136px on desktop while staying overflow-safe at
+     the 600-740px band, where "Превращаем" (≈8.5em) would otherwise clip. */
+  font-size: clamp(2.6rem, 10.5vw, 8.5rem);
+  line-height: .94;
+  letter-spacing: -.035em;
+  margin: 0 0 30px;
+  max-width: 15ch;
   text-wrap: balance;
 }
-.rot-word {
-  color: var(--c-accent);
-  position: relative;
-  display: inline-block;
-  min-width: 4ch;
+.flip-wrap {
+  display: inline-flex;
+  vertical-align: bottom;
+  /* Fixed to the widest rotating word ("продажи" ≈ 5.95em) so the heading
+     never reflows as words swap. */
+  min-width: 6.1em;
+  perspective: 700px;
 }
+.rot-word {
+  display: inline-block;
+  color: var(--c-accent);
+}
+/* Vertical flip between words */
+.flip-enter-active,
+.flip-leave-active {
+  transition: transform .5s var(--ease-out), opacity .5s var(--ease-out);
+  transform-origin: center bottom;
+}
+.flip-enter-from { transform: rotateX(-90deg); opacity: 0; }
+.flip-leave-to { transform: rotateX(90deg); opacity: 0; }
 
 .hero-lead {
-  font-size: clamp(1.05rem, 2vw, 1.35rem);
+  font-size: clamp(1.05rem, 1.7vw, 1.3rem);
   color: rgba(var(--c-fg-rgb), .68);
-  max-width: 56ch;
+  max-width: 50ch;
   margin: 0 0 40px;
   line-height: 1.55;
 }
@@ -249,27 +253,6 @@ const stats = [
 }
 .btn-ghost:active { transform: translateY(1px); }
 
-.hero-stats {
-  display: flex;
-  gap: 40px;
-  flex-wrap: wrap;
-  margin-top: 56px;
-}
-.stat-divider { width: 1px; background: rgba(255, 255, 255, .1); }
-.stat-value {
-  font-family: var(--font-display);
-  font-weight: 700;
-  font-size: clamp(1.8rem, 4vw, 2.6rem);
-  color: var(--c-accent);
-  line-height: 1;
-}
-.stat-label {
-  color: rgba(var(--c-fg-rgb), .55);
-  font-size: 14.5px;
-  margin-top: 6px;
-  font-weight: 500;
-}
-
 .marquee {
   position: relative;
   border-top: 1px solid rgba(255, 255, 255, .07);
@@ -285,8 +268,6 @@ const stats = [
 }
 .marquee:hover .marquee-track,
 .marquee.is-paused .marquee-track { animation-play-state: paused; }
-
-/* Scrim so scrolling text fades out before it reaches the pause control */
 .marquee::after {
   content: '';
   position: absolute;
@@ -303,8 +284,8 @@ const stats = [
   right: 16px;
   transform: translateY(-50%);
   z-index: 1;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   display: grid;
   place-items: center;
   border-radius: 50%;
@@ -319,10 +300,8 @@ const stats = [
   border-color: rgba(var(--c-accent-rgb), .5);
 }
 .marquee-toggle:active { transform: translateY(-50%) scale(.92); }
-/* Optically centre the play triangle — it reads left-heavy when geometric */
 .marquee.is-paused .marquee-toggle svg { transform: translateX(1.5px); }
 @media (prefers-reduced-motion: reduce) {
-  /* Nothing is moving, so no pause affordance is needed. */
   .marquee-toggle, .marquee::after { display: none; }
 }
 .marquee-strip {
@@ -344,5 +323,22 @@ const stats = [
   color: rgba(var(--c-fg-rgb), .82);
   white-space: nowrap;
   letter-spacing: -.01em;
+}
+
+/* Phones & small tablets: tighten side padding to 16px and size the display
+   type off the viewport so the longest word ("Превращаем" ≈ 8.5em) fills the
+   line without ever overflowing. At 375px this lands ~40px; caps at 48px. */
+@media (max-width: 767px) {
+  .hero-inner { padding-inline: 16px; }
+  .hero-title {
+    font-size: clamp(1.75rem, calc((100vw - 2rem) / 8.6), 3rem);
+    max-width: none;
+  }
+}
+/* Phones: buttons stack full-width, stats already wrap via flex-wrap. */
+@media (max-width: 600px) {
+  .hero-ctas { width: 100%; }
+  .btn-primary,
+  .btn-ghost { flex: 1 1 auto; justify-content: center; }
 }
 </style>

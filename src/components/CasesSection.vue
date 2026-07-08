@@ -36,7 +36,7 @@ const metrics = [
 .cases {
   max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(70px, 10vw, 120px) 24px;
+  padding: var(--pad-section) 24px;
 }
 .layout {
   display: grid;
@@ -84,21 +84,38 @@ const metrics = [
 }
 .metric {
   transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
+  position: relative;
   display: grid;
-  grid-template-columns: minmax(96px, 128px) 1fr;
-  gap: clamp(16px, 3vw, 32px);
+  grid-template-columns: minmax(116px, 158px) 1fr;
+  gap: clamp(24px, 3vw, 40px);
   align-items: baseline;
   padding: 24px 0;
   border-bottom: 1px solid rgba(255, 255, 255, .08);
 }
 .metric:first-child { padding-top: 0; }
 .metric:last-child { border-bottom: none; padding-bottom: 0; }
+/* Row subtly lights up on hover (pointer devices only, so touch never sticks) */
+.metric::before {
+  content: '';
+  position: absolute;
+  inset: 4px -20px;
+  z-index: -1;
+  border-radius: 14px;
+  background: rgba(var(--c-accent-rgb), .05);
+  opacity: 0;
+  transition: opacity .3s var(--ease-out);
+}
+.metric-key { transition: text-shadow .3s var(--ease-out); }
+@media (hover: hover) {
+  .metric:hover::before { opacity: 1; }
+  .metric:hover .metric-key { text-shadow: 0 0 20px rgba(var(--c-accent-rgb), .5); }
+}
 .metric-key {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(1.15rem, 2.2vw, 1.5rem);
+  font-size: clamp(1.1rem, 2vw, 1.4rem);
   letter-spacing: -.02em;
-  line-height: 1;
+  line-height: 1.05;
   color: var(--c-accent);
   white-space: nowrap;
 }

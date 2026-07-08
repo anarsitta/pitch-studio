@@ -62,33 +62,52 @@ function reset() {
 
 <template>
   <section id="contact" class="contact">
-    <div class="panel">
-      <div class="panel-glow" aria-hidden="true"></div>
+    <div class="contact-inner">
       <div class="layout">
+        <!-- Left: oversized headline, lead, tappable contact rows -->
         <div v-reveal="0" class="reveal info">
-          <h2 class="title">Обсудим ваш проект?</h2>
+          <h2 class="title">Обсудим ваш <span class="hl">проект</span>?</h2>
           <p class="lead">Расскажите о задаче — вернёмся с планом и оценкой в течение рабочего дня. Без обязательств и навязчивых звонков.</p>
+          <!-- STUB: замените на реальные контакты перед запуском -->
           <div class="channels">
-            <a href="tel:+70000000000" class="channel">
-              <span class="channel-icon channel-icon--phone" aria-hidden="true">✆</span>
-              +7 (000) 000-00-00
+            <a href="tel:+74951234567" class="channel">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                </svg>
+              </span>
+              <span class="channel-body">
+                <span class="channel-label">Позвонить</span>
+                <span class="channel-value">+7 (495) 123-45-67</span>
+              </span>
             </a>
-            <a href="mailto:hello@pitch.studio" class="channel">
-              <span class="channel-icon channel-icon--mail" aria-hidden="true">@</span>
-              hello@pitch.studio
+            <a href="mailto:hello@pitchstudio.ru" class="channel">
+              <span class="channel-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <rect x="2" y="4" width="20" height="16" rx="2"/>
+                  <path d="m22 7-10 6L2 7"/>
+                </svg>
+              </span>
+              <span class="channel-body">
+                <span class="channel-label">Написать</span>
+                <span class="channel-value">hello@pitchstudio.ru</span>
+              </span>
             </a>
           </div>
         </div>
 
+        <!-- Right: elevated form card with lime glow -->
         <div v-reveal="1" class="reveal form-col">
-          <div v-if="sent" class="success" role="status">
+          <div class="form-glow" aria-hidden="true"></div>
+
+          <div v-if="sent" class="card success" role="status">
             <div class="success-mark" aria-hidden="true">✓</div>
             <h3 ref="successTitle" tabindex="-1" class="success-title">Заявка принята!</h3>
             <p class="success-text">Спасибо, {{ sentName }}. Мы свяжемся с вами в течение рабочего дня.</p>
             <button type="button" class="success-reset" @click="reset">Отправить ещё одну</button>
           </div>
 
-          <form v-else class="form" novalidate @submit.prevent="onSubmit">
+          <form v-else class="card form" novalidate @submit.prevent="onSubmit">
             <div>
               <label class="label" for="cf-name">Как вас зовут *</label>
               <input
@@ -137,7 +156,7 @@ function reset() {
             </div>
             <button type="submit" class="submit" :disabled="submitting" :aria-busy="submitting">
               <template v-if="submitting"><span class="spinner" aria-hidden="true"></span> Отправляем…</template>
-              <template v-else>Отправить заявку <span aria-hidden="true">→</span></template>
+              <template v-else>Отправить заявку <span class="submit-arrow" aria-hidden="true">→</span></template>
             </button>
             <p v-if="serverError" class="server-error" role="alert">{{ serverError }}</p>
             <p class="consent">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
@@ -150,37 +169,23 @@ function reset() {
 
 <style scoped>
 .contact {
-  max-width: 1240px;
-  margin: 0 auto;
-  padding: clamp(70px, 10vw, 120px) 24px;
-}
-.panel {
   position: relative;
   overflow: hidden;
-  border-radius: 28px;
   background:
-    radial-gradient(circle at 85% 0%, rgba(var(--c-accent-rgb), .18), transparent 50%),
-    linear-gradient(180deg, var(--c-card-deep), var(--c-bg-2));
-  border: 1px solid rgba(255, 255, 255, .09);
-  padding: clamp(36px, 6vw, 72px);
+    radial-gradient(circle at 12% 0%, rgba(var(--c-accent-rgb), .1), transparent 46%),
+    var(--c-bg);
+  border-top: 1px solid rgba(255, 255, 255, .06);
 }
-.panel-glow {
-  position: absolute;
-  top: -90px;
-  right: -90px;
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(var(--c-accent-rgb), .22), transparent 62%);
-  filter: blur(30px);
-  animation: pitchGlow 8s ease-in-out infinite;
-  pointer-events: none;
+.contact-inner {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: var(--pad-section) 24px;
 }
 .layout {
   position: relative;
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 48px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
+  gap: clamp(40px, 6vw, 80px);
   align-items: center;
 }
 
@@ -190,19 +195,22 @@ function reset() {
 .reveal.is-armed { opacity: 0; transform: translateY(30px); }
 .reveal.is-armed.is-visible { opacity: 1; transform: none; }
 
+/* ---- Left column ---- */
 .title {
   font-family: var(--font-display);
   font-weight: 800;
-  font-size: clamp(2rem, 4.8vw, 3.5rem);
+  /* Oversized display headline, ~80px cap. */
+  font-size: clamp(2.6rem, 6.2vw, 5rem);
   line-height: 1;
-  letter-spacing: -.03em;
-  margin: 0 0 20px;
+  letter-spacing: -.035em;
+  margin: 0 0 22px;
+  text-wrap: balance;
 }
 .lead {
   color: rgba(var(--c-fg-rgb), .66);
   font-size: 17px;
-  margin: 0 0 28px;
-  max-width: 40ch;
+  margin: 0 0 36px;
+  max-width: 42ch;
   line-height: 1.6;
 }
 .channels {
@@ -213,31 +221,164 @@ function reset() {
 .channel {
   text-decoration: none;
   color: var(--c-fg);
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 12px;
-  font-weight: 600;
-  font-size: 16px;
+  gap: 16px;
+  padding: 14px 16px;
+  border-radius: 15px;
+  border: 1px solid rgba(255, 255, 255, .08);
+  background: rgba(255, 255, 255, .02);
+  transition: border-color .25s var(--ease-out), background .25s var(--ease-out), transform .2s var(--ease-out);
 }
-.channel:hover { color: var(--c-accent); }
+.channel:hover {
+  border-color: rgba(var(--c-accent-rgb), .45);
+  background: rgba(var(--c-accent-rgb), .05);
+  transform: translateY(-2px);
+}
 .channel-icon {
-  width: 38px;
-  height: 38px;
-  border-radius: 10px;
+  flex-shrink: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
   background: rgba(var(--c-accent-rgb), .1);
   border: 1px solid rgba(var(--c-accent-rgb), .25);
   display: grid;
   place-items: center;
   color: var(--c-accent);
 }
-.channel-icon--phone { font-size: 16px; }
-.channel-icon--mail { font-size: 15px; }
+.channel-icon svg { width: 22px; height: 22px; }
+.channel-body { display: flex; flex-direction: column; gap: 2px; }
+.channel-label {
+  font-size: 12.5px;
+  font-weight: 500;
+  letter-spacing: .04em;
+  text-transform: uppercase;
+  color: rgba(var(--c-fg-rgb), .5);
+}
+.channel-value { font-weight: 600; font-size: 17px; }
 
+/* ---- Right column: elevated card + glow ---- */
+.form-col { position: relative; }
+.form-glow {
+  position: absolute;
+  inset: 8% 6%;
+  border-radius: 40px;
+  background: radial-gradient(circle at 70% 20%, rgba(var(--c-accent-rgb), .28), transparent 62%);
+  filter: blur(46px);
+  opacity: .55;
+  pointer-events: none;
+  animation: pitchGlow 8s ease-in-out infinite;
+}
+.card {
+  position: relative;
+  border-radius: 22px;
+  background: var(--c-card-deep);
+  border: 1px solid rgba(255, 255, 255, .09);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, .45), 0 0 0 1px rgba(var(--c-accent-rgb), .04);
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: clamp(26px, 3.4vw, 38px);
+}
+.label {
+  display: block;
+  font-size: 13.5px;
+  font-weight: 600;
+  color: rgba(var(--c-fg-rgb), .7);
+  margin-bottom: 8px;
+}
+.input {
+  width: 100%;
+  background: rgba(0, 0, 0, .28);
+  border: 1px solid rgba(255, 255, 255, .12);
+  border-radius: 12px;
+  padding: 14px 16px;
+  color: var(--c-fg);
+  font-family: var(--font-body);
+  font-size: 16px;
+  outline: none;
+  transition: border-color .2s, box-shadow .2s;
+}
+.input::placeholder { color: var(--c-fg-faint); }
+.input.has-error { border-color: var(--c-error); }
+.input:focus {
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(var(--c-accent-rgb), .18);
+}
+.textarea {
+  resize: vertical;
+  min-height: 88px;
+}
+.field-error {
+  color: var(--c-error);
+  font-size: 13px;
+  margin-top: 7px;
+  font-weight: 500;
+}
+.submit {
+  margin-top: 4px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--c-accent);
+  color: var(--c-bg);
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: 17px;
+  padding: 17px;
+  border: none;
+  border-radius: 13px;
+  cursor: pointer;
+  transition: transform .2s, box-shadow .2s;
+  box-shadow: 0 8px 26px rgba(var(--c-accent-rgb), .22);
+}
+.submit-arrow { font-size: 19px; line-height: 1; transition: transform .2s var(--ease-out); }
+.submit:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 40px rgba(var(--c-accent-rgb), .38);
+}
+.submit:hover .submit-arrow { transform: translateX(4px); }
+.submit:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 16px rgba(var(--c-accent-rgb), .3);
+}
+.submit:disabled {
+  cursor: default;
+  opacity: .8;
+  transform: none;
+  box-shadow: 0 4px 16px rgba(var(--c-accent-rgb), .18);
+}
+.spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  vertical-align: -3px;
+  border-radius: 50%;
+  border: 2px solid color-mix(in srgb, var(--c-bg) 30%, transparent);
+  border-top-color: var(--c-bg);
+  animation: spin .7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.server-error {
+  color: var(--c-error);
+  font-size: 13.5px;
+  font-weight: 500;
+  margin: 2px 0 0;
+  text-align: center;
+}
+.consent {
+  color: var(--c-fg-faint);
+  font-size: 12.5px;
+  margin: 2px 0 0;
+  text-align: center;
+}
+
+/* ---- Success state ---- */
 .success {
   padding: 44px 34px;
-  border-radius: 20px;
-  background: rgba(var(--c-accent-rgb), .08);
-  border: 1px solid rgba(var(--c-accent-rgb), .35);
   text-align: center;
 }
 .success-mark {
@@ -278,97 +419,8 @@ function reset() {
 }
 .success-reset:hover { border-color: rgba(var(--c-accent-rgb), .5); }
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 30px 28px;
-  border-radius: 20px;
-  background: rgba(11, 12, 10, .5);
-  border: 1px solid rgba(255, 255, 255, .1);
-}
-.label {
-  display: block;
-  font-size: 13.5px;
-  font-weight: 600;
-  color: rgba(var(--c-fg-rgb), .7);
-  margin-bottom: 8px;
-}
-.input {
-  width: 100%;
-  background: rgba(255, 255, 255, .04);
-  border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 12px;
-  padding: 14px 16px;
-  color: var(--c-fg);
-  font-family: var(--font-body);
-  font-size: 16px;
-  outline: none;
-  transition: border-color .2s;
-}
-.input::placeholder { color: var(--c-fg-faint); }
-.input.has-error { border-color: var(--c-error); }
-.input:focus { border-color: var(--c-accent); }
-.textarea {
-  resize: vertical;
-  min-height: 88px;
-}
-.field-error {
-  color: var(--c-error);
-  font-size: 13px;
-  margin-top: 7px;
-  font-weight: 500;
-}
-.submit {
-  margin-top: 4px;
-  background: var(--c-accent);
-  color: var(--c-bg);
-  font-family: var(--font-body);
-  font-weight: 700;
-  font-size: 17px;
-  padding: 16px;
-  border: none;
-  border-radius: 13px;
-  cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
-  box-shadow: 0 8px 26px rgba(var(--c-accent-rgb), .2);
-}
-.submit:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 40px rgba(var(--c-accent-rgb), .36);
-}
-.submit:active {
-  transform: translateY(0);
-  box-shadow: 0 4px 16px rgba(var(--c-accent-rgb), .3);
-}
-.submit:disabled {
-  cursor: default;
-  opacity: .8;
-  transform: none;
-  box-shadow: 0 4px 16px rgba(var(--c-accent-rgb), .18);
-}
-.spinner {
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  vertical-align: -3px;
-  border-radius: 50%;
-  border: 2px solid color-mix(in srgb, var(--c-bg) 30%, transparent);
-  border-top-color: var(--c-bg);
-  animation: spin .7s linear infinite;
-}
-@keyframes spin { to { transform: rotate(360deg); } }
-.server-error {
-  color: var(--c-error);
-  font-size: 13.5px;
-  font-weight: 500;
-  margin: 2px 0 0;
-  text-align: center;
-}
-.consent {
-  color: var(--c-fg-faint);
-  font-size: 12.5px;
-  margin: 2px 0 0;
-  text-align: center;
+/* Stack columns on narrow viewports. */
+@media (max-width: 860px) {
+  .layout { grid-template-columns: 1fr; gap: 44px; }
 }
 </style>

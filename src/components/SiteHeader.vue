@@ -4,7 +4,7 @@ import { ref, watch, nextTick, onMounted, onUnmounted } from 'vue'
 const links = [
   { href: '#services', label: 'Услуги' },
   { href: '#process', label: 'Процесс' },
-  { href: '#cases', label: 'Кейсы' },
+  { href: '#cases', label: 'Результат' },
   { href: '#why', label: 'Почему мы' }
 ]
 

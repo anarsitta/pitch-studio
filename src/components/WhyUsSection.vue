@@ -1,33 +1,53 @@
 <script setup>
-const advantages = [
-  { mark: '01', title: 'Полный цикл', desc: 'От стратегии до продакшена — всё в одной команде, без потерь на передаче между подрядчиками.' },
-  { mark: '02', title: 'Яндекс и Google', desc: 'Уверенно работаем с обеими экосистемами: реклама, SEO и аналитика под алгоритмы каждой.' },
-  { mark: '03', title: 'Собственная разработка', desc: 'Сайты, приложения и ПО делаем сами — быстрее запуск и полный контроль качества.' },
-  { mark: '04', title: 'Видеопродакшн', desc: 'Свой продакшн и монтаж: контент для рекламы и соцсетей без внешних студий.' }
+// Feature section: a full-width header (heading + lead) above a 2x2 bento
+// grid of four tall cards. Each card carries an outlined index number that
+// fills with lime on hover. Card texts are the agency's core advantages,
+// kept verbatim.
+const features = [
+  {
+    num: '01',
+    title: 'Полный цикл',
+    desc: 'От стратегии до продакшена — всё в одной команде, без потерь на передаче между подрядчиками.'
+  },
+  {
+    num: '02',
+    title: 'Яндекс и Google',
+    desc: 'Уверенно работаем с обеими экосистемами: реклама, SEO и аналитика под алгоритмы каждой.'
+  },
+  {
+    num: '03',
+    title: 'Собственная разработка',
+    desc: 'Сайты, приложения и ПО делаем сами — быстрее запуск и полный контроль качества.'
+  },
+  {
+    num: '04',
+    title: 'Видеопродакшн',
+    desc: 'Свой продакшн и монтаж: контент для рекламы и соцсетей без внешних студий.'
+  }
 ]
 </script>
 
 <template>
   <section id="why" class="why">
     <div class="why-inner">
-      <div class="layout">
-        <div v-reveal class="reveal intro">
-          <h2 class="section-title">Одна <span class="hl">команда</span> вместо пяти подрядчиков</h2>
-          <p class="intro-text">Стратегия, трафик, разработка и продакшн живут внутри агентства. Никаких потерь на стыках — только скорость и общая ответственность за результат.</p>
-        </div>
-        <div class="list">
-          <div v-for="(a, i) in advantages" :key="a.mark" v-reveal="i" class="reveal item">
-            <div class="item-mark" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M20 6 9 17l-5-5" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="item-title">{{ a.title }}</h3>
-              <p class="item-desc">{{ a.desc }}</p>
-            </div>
+      <header v-reveal class="reveal head">
+        <h2 class="section-title">Одна <span class="hl">команда</span> вместо пяти подрядчиков</h2>
+        <p class="intro-text">Стратегия, трафик, разработка и продакшн живут внутри агентства. Никаких потерь на стыках — только скорость и общая ответственность за результат.</p>
+      </header>
+
+      <div class="grid">
+        <article
+          v-for="(f, i) in features"
+          :key="f.num"
+          v-reveal="i"
+          class="reveal card"
+        >
+          <span class="card-num" aria-hidden="true">{{ f.num }}</span>
+          <div class="card-foot">
+            <h3 class="card-title">{{ f.title }}</h3>
+            <p class="card-desc">{{ f.desc }}</p>
           </div>
-        </div>
+        </article>
       </div>
     </div>
   </section>
@@ -45,73 +65,113 @@ const advantages = [
 .why-inner {
   max-width: 1240px;
   margin: 0 auto;
-  padding: clamp(70px, 10vw, 120px) 24px;
-}
-.layout {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 48px;
-  align-items: start;
+  padding: var(--pad-section) 24px;
 }
 
 .reveal.is-armed { opacity: 0; transform: translateY(30px); }
 .reveal.is-armed.is-visible { opacity: 1; transform: none; }
+.reveal { transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
 
-.intro { transition: opacity .8s var(--ease-out), transform .8s var(--ease-out); }
+/* ---- Full-width header: heading left, lead right ---- */
+.head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+  gap: clamp(24px, 5vw, 72px);
+  align-items: end;
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
   font-size: clamp(2rem, 4.6vw, 3.4rem);
   line-height: 1.02;
   letter-spacing: -.03em;
-  margin: 0 0 20px;
+  margin: 0;
   text-wrap: balance;
 }
 .intro-text {
   color: rgba(var(--c-fg-rgb), .62);
   font-size: 16.5px;
   margin: 0;
-  max-width: 42ch;
+  max-width: 50ch;
   line-height: 1.6;
 }
 
-.list {
+/* ---- Bento 2x2 grid ---- */
+.grid {
   display: grid;
-  gap: 14px;
-}
-.item {
-  transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), border-color .3s;
-  display: flex;
+  grid-template-columns: repeat(2, 1fr);
   gap: 18px;
-  align-items: flex-start;
-  padding: 22px 24px;
-  border-radius: 15px;
-  background: rgba(255, 255, 255, .03);
+}
+.card {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  min-height: clamp(260px, 26vw, 300px);
+  padding: clamp(26px, 3vw, 36px);
+  border-radius: 20px;
+  background: rgba(255, 255, 255, .025);
   border: 1px solid rgba(255, 255, 255, .08);
+  transition:
+    opacity .8s var(--ease-out),
+    transform .8s var(--ease-out),
+    background .3s var(--ease-out),
+    border-color .3s var(--ease-out);
 }
-.item:hover { border-color: rgba(var(--c-accent-rgb), .4); }
-.item-mark {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  border-radius: 11px;
-  background: var(--c-accent);
-  color: var(--c-bg);
-  display: grid;
-  place-items: center;
+/* Faint lime wash in the number corner (top-left). */
+.card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at 14% 12%, rgba(var(--c-accent-rgb), .05), transparent 42%);
+  pointer-events: none;
 }
-.item-mark svg { width: 21px; height: 21px; }
-.item-title {
+.card:hover {
+  background: var(--c-card-deep);
+  border-color: rgba(var(--c-accent-rgb), .35);
+}
+
+.card-num {
+  position: relative;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(4.5rem, 6vw, 5rem);
+  line-height: .9;
+  letter-spacing: -.04em;
+  color: transparent;
+  -webkit-text-stroke: 1.4px rgba(var(--c-accent-rgb), .45);
+  transition: color .3s var(--ease-out), -webkit-text-stroke-color .3s var(--ease-out);
+}
+.card:hover .card-num {
+  color: var(--c-accent);
+  -webkit-text-stroke-color: var(--c-accent);
+}
+
+.card-foot {
+  position: relative;
+  margin-top: auto;
+}
+.card-title {
   font-family: var(--font-display);
   font-weight: 600;
-  font-size: 1.08rem;
-  margin: 0 0 6px;
+  font-size: clamp(1.35rem, 1.9vw, 1.5rem);
+  margin: 0 0 10px;
   letter-spacing: -.01em;
 }
-.item-desc {
-  color: rgba(var(--c-fg-rgb), .6);
-  font-size: 14.5px;
+.card-desc {
+  color: rgba(var(--c-fg-rgb), .62);
+  font-size: 15.5px;
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
+  max-width: 42ch;
+}
+
+/* Header stacks, then the grid collapses to one column. */
+@media (max-width: 860px) {
+  .head { grid-template-columns: 1fr; align-items: start; gap: 18px; }
+}
+@media (max-width: 640px) {
+  .grid { grid-template-columns: 1fr; }
 }
 </style>
