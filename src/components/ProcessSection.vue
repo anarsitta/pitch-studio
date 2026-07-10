@@ -153,12 +153,14 @@ onUnmounted(() => {
   font-weight: 800;
   font-size: clamp(2rem, 4vw, 2.8rem);
   line-height: 1;
-  color: transparent;
-  -webkit-text-stroke: 1.4px rgba(var(--c-accent-rgb), .32);
+  /* Faint solid fill, not a hollow outline — see note in WhyUsSection: a
+     stroked-only digit exposed its inner counters as stray triangles/lines.
+     The active step's number brightens to full lime as the timeline fills. */
+  color: rgba(var(--c-accent-rgb), .2);
   margin-bottom: 14px;
-  transition: -webkit-text-stroke-color .3s var(--ease-out);
+  transition: color .3s var(--ease-out);
 }
-.step.is-active .num { -webkit-text-stroke-color: rgba(var(--c-accent-rgb), .9); }
+.step.is-active .num { color: var(--c-accent); }
 .step-title {
   font-family: var(--font-display);
   font-weight: 600;

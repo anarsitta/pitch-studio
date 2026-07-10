@@ -140,13 +140,15 @@ const features = [
   font-size: clamp(4.5rem, 6vw, 5rem);
   line-height: .9;
   letter-spacing: -.04em;
-  color: transparent;
-  -webkit-text-stroke: 1.4px rgba(var(--c-accent-rgb), .45);
-  transition: color .3s var(--ease-out), -webkit-text-stroke-color .3s var(--ease-out);
+  /* Faint solid fill (not a hollow outline): -webkit-text-stroke traced every
+     inner counter, so hollow digits showed their counters as stray triangles
+     and lines ("4", "1", "0"). A soft lime fill reads the same at a glance but
+     stays a clean numeral; it brightens to full lime on hover. */
+  color: rgba(var(--c-accent-rgb), .2);
+  transition: color .3s var(--ease-out);
 }
 .card:hover .card-num {
   color: var(--c-accent);
-  -webkit-text-stroke-color: var(--c-accent);
 }
 
 .card-foot {
