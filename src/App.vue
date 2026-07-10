@@ -31,8 +31,8 @@ main:focus { outline: none; }
   background: var(--c-bg);
   color: var(--c-fg);
   font-family: var(--font-body), -apple-system, sans-serif;
-  font-size: 17px;
-  line-height: 1.6;
+  font-size: var(--fs-lg);
+  line-height: var(--lh-relaxed);
   -webkit-font-smoothing: antialiased;
   overflow-x: hidden;
   position: relative;

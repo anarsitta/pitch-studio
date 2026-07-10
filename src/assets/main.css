@@ -13,15 +13,89 @@
   --c-error: #FF7A6B;
   --font-display: 'Unbounded';
   --font-body: 'Manrope';
+
+  /* ── Type scale ──────────────────────────────────────────────────────────
+     rem-based so text honours the visitor's browser font-size (px never does).
+     Fluid clamp() for the two display tiers — marketing headings that breathe
+     with the viewport; fixed rem for the body/label ramp so UI text stays
+     spatially predictable. The ramp collapses the old muddy doublets
+     (13/13.5, 14/14.5, 15/15.5, 16/16.5) into one value per role. */
+  --fs-display: clamp(2.6rem, 10.5vw, 8.5rem); /* hero H1 only */
+  --fs-headline: clamp(2rem, 4.6vw, 3.4rem);   /* section H2 */
+  --fs-lg: 1.0625rem;   /* 17px — lead paragraphs, hero/primary buttons */
+  --fs-md: 1rem;        /* 16px — standard body, form inputs, section sub-leads */
+  --fs-base: 0.9375rem; /* 15px — dense body, nav links, card copy, meta */
+  --fs-sm: 0.875rem;    /* 14px — secondary meta, footer links */
+  --fs-xs: 0.8125rem;   /* 13px — fine print, hints, legal, errors, column titles */
+  --fs-2xs: 0.78rem;    /* 12.5px — micro-labels (overline, channel label) */
+
+  /* Line-heights. Body runs generous (1.55–1.6): light-on-dark reads a touch
+     lighter and needs the extra leading. Display/headline stay tight per the
+     "плотный дисплей" rule. */
+  --lh-tight: 1.02;   /* display / headline */
+  --lh-snug: 1.15;    /* card & panel titles */
+  --lh-body: 1.55;    /* dense body copy */
+  --lh-relaxed: 1.6;  /* leads and longer prose */
+  --ls-display: -.03em; /* dense display tracking */
+
   --ease-out: cubic-bezier(.22, 1, .36, 1);
+
+  /* ── Spacing scale ──────────────────────────────────────────────────────
+     4pt rem scale (root 16px) — finer than an 8pt scale so 12/20/32 come from
+     the system, not freehand. Layout & rhythm spacing pulls from these;
+     component-internal paddings (buttons, inputs, chips, panels) stay
+     individually tuned to their element. */
+  --space-2xs: .5rem;   /* 8  */
+  --space-xs: .75rem;   /* 12 */
+  --space-sm: 1rem;     /* 16 */
+  --space-md: 1.5rem;   /* 24 */
+  --space-lg: 2rem;     /* 32 */
+  --space-xl: 3rem;     /* 48 */
+
+  /* Fluid rhythm tokens — the two structural beats every section shares. */
+  --space-head: clamp(2.5rem, 5vw, 3rem);      /* 40–48 — section heading → body */
+  --space-gutter: clamp(2.5rem, 6vw, 4.5rem);  /* 40–72 — two-column section gutter */
+
   /* Section vertical rhythm — tightened ~35% from the old clamp(70,10vw,120)
      to remove the empty black gaps between sections. */
   --pad-section: clamp(46px, 6.5vw, 78px);
+
+  /* ── Corner radius scale ────────────────────────────────────────────────
+     The rounded scale from DESIGN.md, now enforced as tokens instead of
+     hard-coded per component. Full circles keep `50%` (a shape, not a step). */
+  --r-hair: 2px;    /* rails, hairline fills */
+  --r-mark: 9px;    /* logo square */
+  --r-sm: 10px;     /* nav pills, social, small buttons */
+  --r-field: 12px;  /* inputs, channel icons, sticky header */
+  --r-md: 13px;     /* primary/ghost buttons */
+  --r-lg: 18px;     /* reserved — mid panels (declared in the rounded scale) */
+  --r-xl: 20px;     /* cards, form card */
+  --r-panel: 28px;  /* large glow panel */
+  --r-pill: 999px;  /* reserved — pill chips/badges */
+
+  /* ── z-index scale ──────────────────────────────────────────────────────
+     Named layers instead of scattered magic numbers. Order: sticky header
+     under the mobile menu; the menu's own close-toggle above the menu; the
+     skip-link above everything so keyboard users always reach it. */
+  --z-sticky: 100;
+  --z-menu: 150;
+  --z-menu-toggle: 160;
+  --z-skip-link: 200;
 }
 
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--c-bg); }
+body {
+  margin: 0;
+  background: var(--c-bg);
+  /* Rendering polish applied once, globally: real kerning, legible rasterising,
+     and the correct optical-size master for the variable display face. */
+  font-kerning: normal;
+  font-optical-sizing: auto;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 ::selection { background: var(--c-accent); color: var(--c-bg); }
 
 /* Lime keyword accent inside a heading — the brand's signature emphasis
@@ -42,13 +116,13 @@ body { margin: 0; background: var(--c-bg); }
   position: fixed;
   left: 16px;
   top: -80px;
-  z-index: 200;
+  z-index: var(--z-skip-link);
   background: var(--c-accent);
   color: var(--c-bg);
   font-weight: 700;
-  font-size: 15px;
+  font-size: var(--fs-base);
   padding: 11px 20px;
-  border-radius: 13px;
+  border-radius: var(--r-md);
   text-decoration: none;
   box-shadow: 0 10px 30px rgba(var(--c-accent-rgb), .35);
   transition: top .2s var(--ease-out);

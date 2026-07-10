@@ -41,7 +41,7 @@ const metrics = [
 .layout {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: clamp(40px, 6vw, 72px);
+  gap: var(--space-gutter);
   align-items: start;
 }
 
@@ -52,27 +52,29 @@ const metrics = [
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 3.4rem);
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-size: var(--fs-headline);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
   margin: 0 0 20px;
   max-width: 16ch;
   text-wrap: balance;
 }
 .lead {
   color: rgba(var(--c-fg-rgb), .66);
-  font-size: 16.5px;
+  font-size: var(--fs-md);
   margin: 0 0 18px;
   max-width: 44ch;
-  line-height: 1.6;
+  line-height: var(--lh-relaxed);
+  text-wrap: pretty;
 }
 .reassure {
   color: var(--c-accent);
-  font-size: 15px;
+  font-size: var(--fs-base);
   font-weight: 600;
   margin: 0;
   max-width: 40ch;
   line-height: 1.5;
+  text-wrap: pretty;
 }
 
 .metrics {
@@ -100,7 +102,7 @@ const metrics = [
   position: absolute;
   inset: 4px -20px;
   z-index: -1;
-  border-radius: 14px;
+  border-radius: var(--r-md);
   background: rgba(var(--c-accent-rgb), .05);
   opacity: 0;
   transition: opacity .3s var(--ease-out);
@@ -129,9 +131,10 @@ const metrics = [
 }
 .metric-note {
   color: rgba(var(--c-fg-rgb), .6);
-  font-size: 14.5px;
+  font-size: var(--fs-sm);
   margin: 0;
-  line-height: 1.55;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
   max-width: 46ch;
 }
 

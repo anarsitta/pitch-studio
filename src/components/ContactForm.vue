@@ -14,9 +14,21 @@ const successTitle = ref(null)
 const nameInput = ref(null)
 const contactInput = ref(null)
 
+// A callable contact: a phone with enough digits, OR a messenger/handle/email
+// (anything with letters). Kept deliberately lenient so we don't reject valid
+// leads — it only catches obvious junk like a half-typed "1234".
+function isValidContact(v) {
+  const s = v.trim()
+  if (s.length < 3) return false
+  const digits = s.replace(/\D/g, '').length
+  const looksNumeric = /^[+\d\s()\-.]+$/.test(s)
+  if (looksNumeric) return digits >= 10
+  return /[a-zA-Zа-яА-Я]/.test(s)
+}
+
 function validate() {
   errName.value = fName.value.trim().length < 2 ? 'Пожалуйста, укажите имя' : ''
-  errContact.value = fContact.value.trim().length < 4 ? 'Укажите телефон или мессенджер для связи' : ''
+  errContact.value = isValidContact(fContact.value) ? '' : 'Укажите телефон (от 10 цифр) или ник в мессенджере'
   return !errName.value && !errContact.value
 }
 
@@ -185,7 +197,7 @@ function reset() {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) minmax(0, .95fr);
-  gap: clamp(40px, 6vw, 80px);
+  gap: var(--space-gutter);
   align-items: center;
 }
 
@@ -208,10 +220,11 @@ function reset() {
 }
 .lead {
   color: rgba(var(--c-fg-rgb), .66);
-  font-size: 17px;
+  font-size: var(--fs-lg);
   margin: 0 0 36px;
   max-width: 42ch;
-  line-height: 1.6;
+  line-height: var(--lh-relaxed);
+  text-wrap: pretty;
 }
 .channels {
   display: flex;
@@ -225,7 +238,7 @@ function reset() {
   align-items: center;
   gap: 16px;
   padding: 14px 16px;
-  border-radius: 15px;
+  border-radius: var(--r-md);
   border: 1px solid rgba(255, 255, 255, .08);
   background: rgba(255, 255, 255, .02);
   transition: border-color .25s var(--ease-out), background .25s var(--ease-out), transform .2s var(--ease-out);
@@ -239,7 +252,7 @@ function reset() {
   flex-shrink: 0;
   width: 46px;
   height: 46px;
-  border-radius: 12px;
+  border-radius: var(--r-field);
   background: rgba(var(--c-accent-rgb), .1);
   border: 1px solid rgba(var(--c-accent-rgb), .25);
   display: grid;
@@ -249,20 +262,21 @@ function reset() {
 .channel-icon svg { width: 22px; height: 22px; }
 .channel-body { display: flex; flex-direction: column; gap: 2px; }
 .channel-label {
-  font-size: 12.5px;
+  font-size: var(--fs-2xs);
   font-weight: 500;
   letter-spacing: .04em;
   text-transform: uppercase;
-  color: rgba(var(--c-fg-rgb), .5);
+  /* .6 (≈6.8:1) clears the DESIGN.md 55% floor for this small tracked-caps label. */
+  color: rgba(var(--c-fg-rgb), .6);
 }
-.channel-value { font-weight: 600; font-size: 17px; }
+.channel-value { font-weight: 600; font-size: var(--fs-lg); }
 
 /* ---- Right column: elevated card + glow ---- */
 .form-col { position: relative; }
 .form-glow {
   position: absolute;
   inset: 8% 6%;
-  border-radius: 40px;
+  border-radius: var(--r-panel);
   background: radial-gradient(circle at 70% 20%, rgba(var(--c-accent-rgb), .28), transparent 62%);
   filter: blur(46px);
   opacity: .55;
@@ -271,7 +285,7 @@ function reset() {
 }
 .card {
   position: relative;
-  border-radius: 22px;
+  border-radius: var(--r-xl);
   background: var(--c-card-deep);
   border: 1px solid rgba(255, 255, 255, .09);
   box-shadow: 0 30px 80px rgba(0, 0, 0, .45), 0 0 0 1px rgba(var(--c-accent-rgb), .04);
@@ -284,7 +298,7 @@ function reset() {
 }
 .label {
   display: block;
-  font-size: 13.5px;
+  font-size: var(--fs-xs);
   font-weight: 600;
   color: rgba(var(--c-fg-rgb), .7);
   margin-bottom: 8px;
@@ -293,13 +307,13 @@ function reset() {
   width: 100%;
   background: rgba(0, 0, 0, .28);
   border: 1px solid rgba(255, 255, 255, .12);
-  border-radius: 12px;
+  border-radius: var(--r-field);
   padding: 14px 16px;
   color: var(--c-fg);
   font-family: var(--font-body);
-  font-size: 16px;
+  font-size: var(--fs-md);
   outline: none;
-  transition: border-color .2s, box-shadow .2s;
+  transition: border-color .2s var(--ease-out), box-shadow .2s var(--ease-out);
 }
 .input::placeholder { color: var(--c-fg-faint); }
 .input.has-error { border-color: var(--c-error); }
@@ -313,7 +327,7 @@ function reset() {
 }
 .field-error {
   color: var(--c-error);
-  font-size: 13px;
+  font-size: var(--fs-xs);
   margin-top: 7px;
   font-weight: 500;
 }
@@ -327,12 +341,12 @@ function reset() {
   color: var(--c-bg);
   font-family: var(--font-body);
   font-weight: 700;
-  font-size: 17px;
+  font-size: var(--fs-lg);
   padding: 17px;
   border: none;
-  border-radius: 13px;
+  border-radius: var(--r-md);
   cursor: pointer;
-  transition: transform .2s, box-shadow .2s;
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
   box-shadow: 0 8px 26px rgba(var(--c-accent-rgb), .22);
 }
 .submit-arrow { font-size: 19px; line-height: 1; transition: transform .2s var(--ease-out); }
@@ -364,14 +378,14 @@ function reset() {
 @keyframes spin { to { transform: rotate(360deg); } }
 .server-error {
   color: var(--c-error);
-  font-size: 13.5px;
+  font-size: var(--fs-xs);
   font-weight: 500;
   margin: 2px 0 0;
   text-align: center;
 }
 .consent {
   color: var(--c-fg-faint);
-  font-size: 12.5px;
+  font-size: var(--fs-2xs);
   margin: 2px 0 0;
   text-align: center;
 }
@@ -402,7 +416,9 @@ function reset() {
 .success-text {
   color: rgba(var(--c-fg-rgb), .68);
   margin: 0;
-  font-size: 15.5px;
+  font-size: var(--fs-base);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 .success-reset {
   margin-top: 24px;
@@ -411,11 +427,11 @@ function reset() {
   color: var(--c-fg);
   font-family: var(--font-body);
   font-weight: 600;
-  font-size: 15px;
+  font-size: var(--fs-base);
   padding: 11px 22px;
-  border-radius: 11px;
+  border-radius: var(--r-sm);
   cursor: pointer;
-  transition: border-color .2s;
+  transition: border-color .2s var(--ease-out);
 }
 .success-reset:hover { border-color: rgba(var(--c-accent-rgb), .5); }
 

@@ -72,7 +72,7 @@ const socials = ['VK', 'TG', 'YT']
 .logo-mark {
   width: 34px;
   height: 34px;
-  border-radius: 9px;
+  border-radius: var(--r-mark);
   background: var(--c-accent);
   display: grid;
   place-items: center;
@@ -90,14 +90,15 @@ const socials = ['VK', 'TG', 'YT']
 }
 .about-text {
   color: var(--c-fg-faint);
-  font-size: 14.5px;
+  font-size: var(--fs-sm);
   margin: 0;
   max-width: 34ch;
-  line-height: 1.55;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 .col-title {
   font-weight: 700;
-  font-size: 13px;
+  font-size: var(--fs-xs);
   letter-spacing: .06em;
   text-transform: uppercase;
   color: var(--c-fg-faint);
@@ -111,9 +112,9 @@ const socials = ['VK', 'TG', 'YT']
 .footer-link {
   text-decoration: none;
   color: rgba(var(--c-fg-rgb), .72);
-  font-size: 15px;
+  font-size: var(--fs-base);
   font-weight: 500;
-  transition: color .2s;
+  transition: color .2s var(--ease-out);
 }
 .footer-link:hover { color: var(--c-accent); }
 
@@ -124,7 +125,7 @@ const socials = ['VK', 'TG', 'YT']
 }
 .col-note {
   color: var(--c-fg-faint);
-  font-size: 14px;
+  font-size: var(--fs-sm);
 }
 .socials {
   display: flex;
@@ -137,12 +138,12 @@ const socials = ['VK', 'TG', 'YT']
   place-items: center;
   width: 44px;
   height: 44px;
-  border-radius: 11px;
+  border-radius: var(--r-sm);
   border: 1px solid rgba(255, 255, 255, .12);
   color: rgba(var(--c-fg-rgb), .8);
   font-weight: 700;
-  font-size: 13px;
-  transition: border-color .2s, color .2s, background .2s;
+  font-size: var(--fs-xs);
+  transition: border-color .2s var(--ease-out), color .2s var(--ease-out), background .2s var(--ease-out);
 }
 .social:hover {
   border-color: rgba(var(--c-accent-rgb), .5);
@@ -159,6 +160,6 @@ const socials = ['VK', 'TG', 'YT']
   gap: 16px;
   flex-wrap: wrap;
   color: var(--c-fg-faint);
-  font-size: 13.5px;
+  font-size: var(--fs-xs);
 }
 </style>

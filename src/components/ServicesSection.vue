@@ -85,16 +85,16 @@ function spotlight(e) {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
-  gap: 24px;
+  gap: var(--space-md);
   flex-wrap: wrap;
-  margin-bottom: 44px;
+  margin-bottom: var(--space-head);
 }
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 3.4rem);
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-size: var(--fs-headline);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
   margin: 0;
   max-width: 16ch;
   text-wrap: balance;
@@ -103,20 +103,21 @@ function spotlight(e) {
   color: rgba(var(--c-fg-rgb), .6);
   max-width: 34ch;
   margin: 0;
-  font-size: 16px;
+  font-size: var(--fs-md);
+  text-wrap: pretty;
 }
 
 /* Bento: 4-col grid, two cards span 2 columns (large), no gaps. */
 .bento {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  gap: var(--space-sm);
 }
 .card {
   transition: opacity .7s var(--ease-out), transform .7s var(--ease-out), border-color .3s, background .3s;
   position: relative;
   padding: 30px 28px;
-  border-radius: 20px;
+  border-radius: var(--r-xl);
   background: linear-gradient(180deg, rgba(255, 255, 255, .035), rgba(255, 255, 255, .012));
   border: 1px solid rgba(255, 255, 255, .08);
   overflow: hidden;
@@ -161,7 +162,7 @@ function spotlight(e) {
 .card-icon {
   width: 52px;
   height: 52px;
-  border-radius: 13px;
+  border-radius: var(--r-md);
   background: rgba(var(--c-accent-rgb), .12);
   border: 1px solid rgba(var(--c-accent-rgb), .28);
   display: grid;
@@ -179,14 +180,15 @@ function spotlight(e) {
   font-size: 1.28rem;
   letter-spacing: -.01em;
   margin: 0 0 12px;
-  line-height: 1.15;
+  line-height: var(--lh-snug);
 }
 .card--large .card-title { font-size: 1.55rem; }
 .card-desc {
   color: rgba(var(--c-fg-rgb), .62);
-  font-size: 15.5px;
+  font-size: var(--fs-base);
   margin: 0;
-  line-height: 1.55;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
 @media (max-width: 899px) {

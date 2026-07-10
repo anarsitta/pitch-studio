@@ -147,7 +147,7 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
   align-items: center;
   gap: 10px;
   margin: 0 0 24px;
-  font-size: 12.5px;
+  font-size: var(--fs-2xs);
   font-weight: 600;
   letter-spacing: .2em;
   text-transform: uppercase;
@@ -167,8 +167,9 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
   font-family: var(--font-display);
   font-weight: 800;
   /* 10.5vw (not 11vw) keeps ~136px on desktop while staying overflow-safe at
-     the 600-740px band, where "Превращаем" (≈8.5em) would otherwise clip. */
-  font-size: clamp(2.6rem, 10.5vw, 8.5rem);
+     the 600-740px band, where "Превращаем" (≈8.5em) would otherwise clip.
+     Token value is this exact clamp; see --fs-display note in main.css. */
+  font-size: var(--fs-display);
   line-height: .94;
   letter-spacing: -.035em;
   margin: 0 0 30px;
@@ -201,7 +202,8 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
   color: rgba(var(--c-fg-rgb), .68);
   max-width: 50ch;
   margin: 0 0 40px;
-  line-height: 1.55;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
 }
 
 .hero-ctas {
@@ -218,10 +220,10 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
   background: var(--c-accent);
   color: var(--c-bg);
   font-weight: 700;
-  font-size: 17px;
+  font-size: var(--fs-lg);
   padding: 16px 28px;
-  border-radius: 13px;
-  transition: transform .2s, box-shadow .2s;
+  border-radius: var(--r-md);
+  transition: transform .2s var(--ease-out), box-shadow .2s var(--ease-out);
   box-shadow: 0 8px 30px rgba(var(--c-accent-rgb), .22);
 }
 .btn-primary:hover {
@@ -241,11 +243,11 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
   background: transparent;
   color: var(--c-fg);
   font-weight: 600;
-  font-size: 17px;
+  font-size: var(--fs-lg);
   padding: 16px 26px;
-  border-radius: 13px;
+  border-radius: var(--r-md);
   border: 1px solid rgba(255, 255, 255, .16);
-  transition: border-color .2s, background .2s;
+  transition: border-color .2s var(--ease-out), background .2s var(--ease-out);
 }
 .btn-ghost:hover {
   border-color: rgba(var(--c-accent-rgb), .5);
@@ -293,7 +295,7 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
   background: var(--c-bg);
   color: rgba(var(--c-fg-rgb), .72);
   cursor: pointer;
-  transition: color .2s, border-color .2s, transform .2s;
+  transition: color .2s var(--ease-out), border-color .2s var(--ease-out), transform .2s var(--ease-out);
 }
 .marquee-toggle:hover {
   color: var(--c-accent);
@@ -331,14 +333,24 @@ const keywords = ['Таргет', 'Контекст', 'SMM', 'Мессендже
 @media (max-width: 767px) {
   .hero-inner { padding-inline: 16px; }
   .hero-title {
+    /* Divide by 8.6: measured, the widest word "Превращаем" is 8.45em in
+       Unbounded 800, so at /8.6 it stays inside the 16px gutters at every
+       width down to 320px (word ≈ 98% of the available line). */
     font-size: clamp(1.75rem, calc((100vw - 2rem) / 8.6), 3rem);
     max-width: none;
   }
+  /* The overline is one long tracked line; shrink size + tracking fluidly so
+     "Маркетинговое агентство полного цикла" fits one line down to 320px. */
+  .hero-overline {
+    font-size: clamp(10px, 3vw, 11px);
+    letter-spacing: .1em;
+  }
 }
-/* Phones: buttons stack full-width, stats already wrap via flex-wrap. */
-@media (max-width: 600px) {
-  .hero-ctas { width: 100%; }
+/* Phones: stack the CTAs full-width so the ghost button never clips against
+   the primary in a shared row. */
+@media (max-width: 560px) {
+  .hero-ctas { flex-direction: column; align-items: stretch; }
   .btn-primary,
-  .btn-ghost { flex: 1 1 auto; justify-content: center; }
+  .btn-ghost { justify-content: center; }
 }
 </style>

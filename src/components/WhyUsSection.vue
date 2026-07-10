@@ -78,30 +78,31 @@ const features = [
   grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
   gap: clamp(24px, 5vw, 72px);
   align-items: end;
-  margin-bottom: clamp(36px, 5vw, 56px);
+  margin-bottom: var(--space-head);
 }
 .section-title {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 3.4rem);
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-size: var(--fs-headline);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
   margin: 0;
   text-wrap: balance;
 }
 .intro-text {
   color: rgba(var(--c-fg-rgb), .62);
-  font-size: 16.5px;
+  font-size: var(--fs-md);
   margin: 0;
   max-width: 50ch;
-  line-height: 1.6;
+  line-height: var(--lh-relaxed);
+  text-wrap: pretty;
 }
 
 /* ---- Bento 2x2 grid ---- */
 .grid {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 18px;
+  gap: var(--space-sm);
 }
 .card {
   position: relative;
@@ -110,7 +111,7 @@ const features = [
   flex-direction: column;
   min-height: clamp(260px, 26vw, 300px);
   padding: clamp(26px, 3vw, 36px);
-  border-radius: 20px;
+  border-radius: var(--r-xl);
   background: rgba(255, 255, 255, .025);
   border: 1px solid rgba(255, 255, 255, .08);
   transition:
@@ -161,9 +162,10 @@ const features = [
 }
 .card-desc {
   color: rgba(var(--c-fg-rgb), .62);
-  font-size: 15.5px;
+  font-size: var(--fs-base);
   margin: 0;
-  line-height: 1.55;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
   max-width: 42ch;
 }
 

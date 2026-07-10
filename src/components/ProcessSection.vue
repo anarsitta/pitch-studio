@@ -82,14 +82,14 @@ onUnmounted(() => {
 .reveal.is-armed { opacity: 0; transform: translateY(30px); }
 .reveal.is-armed.is-visible { opacity: 1; transform: none; }
 
-.section-head { margin-bottom: 44px; max-width: 100%; }
+.section-head { margin-bottom: var(--space-head); max-width: 100%; }
 .section-title {
   transition: opacity .8s var(--ease-out), transform .8s var(--ease-out);
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(2rem, 4.6vw, 3.4rem);
-  line-height: 1.02;
-  letter-spacing: -.03em;
+  font-size: var(--fs-headline);
+  line-height: var(--lh-tight);
+  letter-spacing: var(--ls-display);
   margin: 0;
   text-wrap: balance;
 }
@@ -103,15 +103,19 @@ onUnmounted(() => {
   right: 10%;
   height: 2px;
   background: rgba(255, 255, 255, .12);
-  border-radius: 2px;
+  border-radius: var(--r-hair);
 }
 .rail-fill {
+  width: 100%;
   height: 100%;
-  width: calc(var(--p, 0) * 100%);
   background: var(--c-accent);
-  border-radius: 2px;
+  border-radius: var(--r-hair);
   box-shadow: 0 0 12px rgba(var(--c-accent-rgb), .55);
-  transition: width .12s linear;
+  /* Scroll-linked fill via transform (GPU-composited) instead of animating
+     width/height, which would trigger layout on every frame. */
+  transform: scaleX(var(--p, 0));
+  transform-origin: left center;
+  transition: transform .12s linear;
 }
 .steps {
   list-style: none;
@@ -119,7 +123,7 @@ onUnmounted(() => {
   padding: 0;
   display: grid;
   grid-template-columns: repeat(5, 1fr);
-  gap: 16px;
+  gap: var(--space-sm);
 }
 .step {
   transition: opacity .7s var(--ease-out), transform .7s var(--ease-out);
@@ -161,14 +165,16 @@ onUnmounted(() => {
   font-size: 1.2rem;
   margin: 0 0 10px;
   letter-spacing: -.01em;
+  line-height: var(--lh-snug);
   transition: color .3s var(--ease-out);
 }
 .step.is-active .step-title { color: var(--c-accent); }
 .step-desc {
   color: rgba(var(--c-fg-rgb), .68);
-  font-size: 15px;
+  font-size: var(--fs-base);
   margin: 0;
-  line-height: 1.55;
+  line-height: var(--lh-body);
+  text-wrap: pretty;
   max-width: 28ch;
   margin-inline: auto;
 }
@@ -184,9 +190,9 @@ onUnmounted(() => {
     height: auto;
   }
   .rail-fill {
-    width: 100%;
-    height: calc(var(--p, 0) * 100%);
-    transition: height .12s linear;
+    /* Vertical rail: grow top→bottom on the same transform channel. */
+    transform: scaleY(var(--p, 0));
+    transform-origin: top center;
   }
   .steps {
     grid-template-columns: auto 1fr;
