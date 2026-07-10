@@ -7,6 +7,7 @@ import CasesSection from './components/CasesSection.vue'
 import WhyUsSection from './components/WhyUsSection.vue'
 import ContactForm from './components/ContactForm.vue'
 import SiteFooter from './components/SiteFooter.vue'
+import BackToTop from './components/BackToTop.vue'
 </script>
 
 <template>
@@ -22,6 +23,7 @@ import SiteFooter from './components/SiteFooter.vue'
       <ContactForm />
     </main>
     <SiteFooter />
+    <BackToTop />
   </div>
 </template>
 
@@ -34,7 +36,10 @@ main:focus { outline: none; }
   font-size: var(--fs-lg);
   line-height: var(--lh-relaxed);
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  /* clip (not hidden): hidden computes overflow-y:auto, turns .site into a
+     scroll container and breaks the sticky header. clip guards against
+     horizontal overflow without establishing a scrollport. */
+  overflow-x: clip;
   position: relative;
 }
 </style>

@@ -78,6 +78,7 @@
      under the mobile menu; the menu's own close-toggle above the menu; the
      skip-link above everything so keyboard users always reach it. */
   --z-sticky: 100;
+  --z-fab: 140;       /* back-to-top button — over content, under the menu */
   --z-menu: 150;
   --z-menu-toggle: 160;
   --z-skip-link: 200;
