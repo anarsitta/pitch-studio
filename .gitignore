@@ -5,10 +5,12 @@ node_modules/
 dist/
 
 # Local tooling state
-.impeccable/config.local.json
+.impeccable/
+.cursor/
 
 # Archives / source dumps
 *.zip
+site-src/
 
 # OS / editor
 .DS_Store
