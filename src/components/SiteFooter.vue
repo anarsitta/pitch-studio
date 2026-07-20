@@ -5,7 +5,27 @@ const navLinks = [
   { href: '#cases', label: 'Результат' },
   { href: '#contact', label: 'Контакты' }
 ]
-const socials = ['VK', 'TG', 'YT']
+const socials = [{ label: 'TG', href: 'https://t.me/ArGo_manager', title: 'Telegram' }]
+
+// STUB: тексты документов готовит юрист — подставить реальные ссылки
+const docs = [
+  { href: '#', label: 'Политика конфиденциальности' },
+  { href: '#', label: 'Согласие на обработку персональных данных' }
+]
+
+const requisites = [
+  ['Наименование', 'Общество с ограниченной ответственностью «Питч Студио»'],
+  ['Сокращённое наименование', 'ООО «Питч Студио»'],
+  ['Юридический и почтовый адрес', '603155, г. Нижний Новгород, ул. Минина, д. 19/6, помещ. П3'],
+  ['ИНН', '5260491328'],
+  ['КПП', '526001001'],
+  ['ОГРН', '1235200022804'],
+  ['ОКВЭД', '70.22 Консультирование по вопросам коммерческой деятельности и управления'],
+  ['Телефон', '+7 908 039-73-82'],
+  ['Генеральный директор', 'Гордиенко Артемий Тимофеевич'],
+  ['Главный бухгалтер', 'Гордиенко Артемий Тимофеевич'],
+  ['Эл. почта', 'pittch.studio@yandex.ru']
+]
 </script>
 
 <template>
@@ -26,23 +46,47 @@ const socials = ['VK', 'TG', 'YT']
       </div>
       <div>
         <div class="col-title">Контакты</div>
-        <!-- STUB: замените на реальные контакты перед запуском -->
         <div class="col-links">
-          <a href="tel:+74951234567" class="footer-link">+7 (495) 123-45-67</a>
-          <a href="mailto:hello@pitchstudio.ru" class="footer-link">hello@pitchstudio.ru</a>
-          <span class="col-note">Москва, работаем по всей России</span>
+          <a href="mailto:pittch.studio@yandex.ru" class="footer-link">pittch.studio@yandex.ru</a>
+          <a href="#contact" class="footer-link">Оставить заявку</a>
+          <span class="col-note">Нижний Новгород, работаем по всей России</span>
+        </div>
+      </div>
+      <div>
+        <div class="col-title">Документы</div>
+        <div class="col-links">
+          <a v-for="doc in docs" :key="doc.label" :href="doc.href" class="footer-link">{{ doc.label }}</a>
         </div>
       </div>
       <div>
         <div class="col-title">Соцсети</div>
         <div class="socials">
-          <a v-for="s in socials" :key="s" href="#" class="social">{{ s }}</a>
+          <a
+            v-for="s in socials"
+            :key="s.label"
+            :href="s.href"
+            class="social"
+            target="_blank"
+            rel="noopener"
+            :aria-label="s.title"
+          >{{ s.label }}</a>
         </div>
       </div>
     </div>
+    <div class="footer-legal">
+      <details class="requisites">
+        <summary class="requisites-toggle">Реквизиты компании</summary>
+        <dl class="requisites-list">
+          <template v-for="[term, value] in requisites" :key="term">
+            <dt class="requisites-term">{{ term }}</dt>
+            <dd class="requisites-value">{{ value }}</dd>
+          </template>
+        </dl>
+      </details>
+    </div>
     <div class="footer-bottom">
       <span>© 2026 ООО «Питч Студио». Все права защищены.</span>
-      <span>ИНН 0000000000 · ОГРН 0000000000000</span>
+      <span>ИНН 5260491328 · ОГРН 1235200022804</span>
     </div>
   </footer>
 </template>
@@ -150,6 +194,52 @@ const socials = ['VK', 'TG', 'YT']
   color: var(--c-accent);
   background: rgba(var(--c-accent-rgb), .06);
 }
+/* ---- Company card: present but folded away, so it never competes with nav ---- */
+.footer-legal {
+  max-width: 1240px;
+  margin: 0 auto;
+  padding: 0 24px;
+}
+.requisites-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  list-style: none;
+  color: rgba(var(--c-fg-rgb), .72);
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  padding: 8px 0;
+  transition: color .2s var(--ease-out);
+}
+.requisites-toggle::-webkit-details-marker { display: none; }
+.requisites-toggle::before {
+  content: '';
+  width: 7px;
+  height: 7px;
+  border-right: 1.5px solid currentColor;
+  border-bottom: 1.5px solid currentColor;
+  transform: rotate(-45deg);
+  transition: transform .2s var(--ease-out);
+}
+.requisites[open] .requisites-toggle::before { transform: rotate(45deg); }
+.requisites-toggle:hover { color: var(--c-accent); }
+.requisites-list {
+  display: grid;
+  grid-template-columns: minmax(140px, 260px) minmax(0, 1fr);
+  gap: 10px 28px;
+  margin: 14px 0 22px;
+  font-size: var(--fs-sm);
+  line-height: var(--lh-body);
+}
+.requisites-term { color: var(--c-fg-faint); }
+.requisites-value { margin: 0; color: rgba(var(--c-fg-rgb), .78); }
+
+@media (max-width: 620px) {
+  .requisites-list { grid-template-columns: 1fr; gap: 2px 0; }
+  .requisites-value { margin-bottom: 12px; }
+}
+
 .footer-bottom {
   max-width: 1240px;
   margin: 0 auto;

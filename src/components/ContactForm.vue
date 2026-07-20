@@ -1,11 +1,25 @@
 <script setup>
 import { ref, nextTick } from 'vue'
 
+const topics = [
+  'Разработка сайта или лендинга',
+  'Редизайн сайта',
+  'Доработка и развитие сайта',
+  'Разработка программного обеспечения',
+  'Создание брендбука',
+  'Комплексный проект',
+  'Другое / нужна консультация'
+]
+
 const fName = ref('')
 const fContact = ref('')
+const fTopic = ref('')
 const fTask = ref('')
+const fConsent = ref(false)
+const fMarketing = ref(false)
 const errName = ref('')
 const errContact = ref('')
+const errConsent = ref('')
 const sent = ref(false)
 const sentName = ref('')
 const submitting = ref(false)
@@ -13,6 +27,13 @@ const serverError = ref('')
 const successTitle = ref(null)
 const nameInput = ref(null)
 const contactInput = ref(null)
+const consentInput = ref(null)
+
+// The "Заполнить форму" channel is a jump link: on mobile the form sits far
+// below the copy, so we move focus as well as scroll.
+function focusForm() {
+  nameInput.value?.focus()
+}
 
 // A callable contact: a phone with enough digits, OR a messenger/handle/email
 // (anything with letters). Kept deliberately lenient so we don't reject valid
@@ -29,7 +50,8 @@ function isValidContact(v) {
 function validate() {
   errName.value = fName.value.trim().length < 2 ? 'Пожалуйста, укажите имя' : ''
   errContact.value = isValidContact(fContact.value) ? '' : 'Укажите телефон (от 10 цифр) или ник в мессенджере'
-  return !errName.value && !errContact.value
+  errConsent.value = fConsent.value ? '' : 'Отметьте согласие на обработку персональных данных'
+  return !errName.value && !errContact.value && !errConsent.value
 }
 
 async function onSubmit() {
@@ -40,11 +62,19 @@ async function onSubmit() {
     await nextTick()
     if (errName.value) nameInput.value?.focus()
     else if (errContact.value) contactInput.value?.focus()
+    else if (errConsent.value) consentInput.value?.focus()
     return
   }
   submitting.value = true
   try {
-    await sendLead({ name: fName.value.trim(), contact: fContact.value.trim(), task: fTask.value.trim() })
+    await sendLead({
+      name: fName.value.trim(),
+      contact: fContact.value.trim(),
+      topic: fTopic.value,
+      task: fTask.value.trim(),
+      consent: fConsent.value,
+      marketing: fMarketing.value
+    })
     sentName.value = fName.value.trim()
     sent.value = true
     // Move focus to the confirmation so keyboard/screen-reader users land on it.
@@ -66,7 +96,11 @@ function reset() {
   sent.value = false
   fName.value = ''
   fContact.value = ''
+  fTopic.value = ''
   fTask.value = ''
+  fConsent.value = false
+  fMarketing.value = false
+  errConsent.value = ''
   sentName.value = ''
   serverError.value = ''
 }
@@ -79,21 +113,22 @@ function reset() {
         <!-- Left: oversized headline, lead, tappable contact rows -->
         <div v-reveal="0" class="reveal info">
           <h2 class="title">Обсудим ваш <span class="hl">проект</span>?</h2>
-          <p class="lead">Расскажите о задаче — вернёмся с планом и оценкой в течение рабочего дня. Без обязательств и навязчивых звонков.</p>
-          <!-- STUB: замените на реальные контакты перед запуском -->
+          <p class="lead">Расскажите о задаче. Изучим вводные и вернёмся с предложением по формату работы, срокам и стоимости. Свяжемся только удобным для вас способом.</p>
           <div class="channels">
-            <a href="tel:+74951234567" class="channel">
+            <a href="#cf-name" class="channel" @click="focusForm">
               <span class="channel-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/>
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <path d="M14 2v6h6"/>
+                  <path d="M8 13h8M8 17h5"/>
                 </svg>
               </span>
               <span class="channel-body">
-                <span class="channel-label">Позвонить</span>
-                <span class="channel-value">+7 (495) 123-45-67</span>
+                <span class="channel-label">Заполнить форму</span>
+                <span class="channel-value">Свяжемся в течение рабочего дня</span>
               </span>
             </a>
-            <a href="mailto:hello@pitchstudio.ru" class="channel">
+            <a href="mailto:pittch.studio@yandex.ru" class="channel">
               <span class="channel-icon" aria-hidden="true">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                   <rect x="2" y="4" width="20" height="16" rx="2"/>
@@ -102,7 +137,7 @@ function reset() {
               </span>
               <span class="channel-body">
                 <span class="channel-label">Написать</span>
-                <span class="channel-value">hello@pitchstudio.ru</span>
+                <span class="channel-value">pittch.studio@yandex.ru</span>
               </span>
             </a>
           </div>
@@ -157,6 +192,20 @@ function reset() {
               <div v-if="errContact" id="cf-contact-err" class="field-error" role="alert">{{ errContact }}</div>
             </div>
             <div>
+              <label class="label" for="cf-topic">Чем вам помочь?</label>
+              <div class="select-wrap">
+                <select id="cf-topic" v-model="fTopic" class="input select" :class="{ 'is-empty': !fTopic }">
+                  <option value="">Выберите направление</option>
+                  <option v-for="t in topics" :key="t" :value="t">{{ t }}</option>
+                </select>
+                <span class="select-caret" aria-hidden="true">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="m6 9 6 6 6-6"/>
+                  </svg>
+                </span>
+              </div>
+            </div>
+            <div>
               <label class="label" for="cf-task">Опишите задачу</label>
               <textarea
                 id="cf-task"
@@ -166,12 +215,36 @@ function reset() {
                 class="input textarea"
               ></textarea>
             </div>
+            <!-- STUB: формулировки согласий готовит юрист — заменить перед запуском -->
+            <div class="consents">
+              <label class="check" for="cf-consent">
+                <input
+                  id="cf-consent"
+                  ref="consentInput"
+                  v-model="fConsent"
+                  type="checkbox"
+                  class="check-box"
+                  aria-required="true"
+                  :aria-invalid="errConsent ? 'true' : 'false'"
+                  :aria-describedby="errConsent ? 'cf-consent-err' : undefined"
+                  @change="errConsent = ''"
+                />
+                <span class="check-text">
+                  Я согласен(-на) на обработку персональных данных в соответствии с
+                  <a href="#" class="check-link">политикой конфиденциальности</a>. *
+                </span>
+              </label>
+              <div v-if="errConsent" id="cf-consent-err" class="field-error" role="alert">{{ errConsent }}</div>
+              <label class="check" for="cf-marketing">
+                <input id="cf-marketing" v-model="fMarketing" type="checkbox" class="check-box" />
+                <span class="check-text">Согласен(-на) на получение рекламных материалов и рассылок.</span>
+              </label>
+            </div>
             <button type="submit" class="submit" :disabled="submitting" :aria-busy="submitting">
               <template v-if="submitting"><span class="spinner" aria-hidden="true"></span> Отправляем…</template>
               <template v-else>Отправить заявку <span class="submit-arrow" aria-hidden="true">→</span></template>
             </button>
             <p v-if="serverError" class="server-error" role="alert">{{ serverError }}</p>
-            <p class="consent">Нажимая кнопку, вы соглашаетесь на обработку персональных данных.</p>
           </form>
         </div>
       </div>
@@ -383,12 +456,90 @@ function reset() {
   margin: 2px 0 0;
   text-align: center;
 }
-.consent {
-  color: var(--c-fg-faint);
-  font-size: var(--fs-2xs);
-  margin: 2px 0 0;
-  text-align: center;
+/* ---- Topic select ---- */
+.select-wrap { position: relative; }
+.select {
+  appearance: none;
+  padding-right: 44px;
+  cursor: pointer;
 }
+/* Placeholder option should read as placeholder text, chosen ones as content. */
+.select.is-empty { color: var(--c-fg-faint); }
+.select option { background: var(--c-card-deep); color: var(--c-fg); }
+.select-caret {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 18px;
+  height: 18px;
+  color: rgba(var(--c-fg-rgb), .55);
+  pointer-events: none;
+}
+.select-caret svg { width: 100%; height: 100%; }
+
+/* ---- Consent checkboxes ---- */
+.consents {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 2px;
+}
+.check {
+  display: flex;
+  align-items: flex-start;
+  gap: 11px;
+  cursor: pointer;
+}
+.check-box {
+  flex-shrink: 0;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  margin: 1px 0 0;
+  border-radius: 6px;
+  border: 1px solid rgba(255, 255, 255, .22);
+  background: rgba(0, 0, 0, .28);
+  cursor: pointer;
+  display: grid;
+  place-items: center;
+  transition: border-color .2s var(--ease-out), background .2s var(--ease-out);
+}
+.check-box::after {
+  content: '';
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid var(--c-bg);
+  border-bottom: 2px solid var(--c-bg);
+  transform: rotate(-45deg) translate(1px, -1px) scale(.6);
+  opacity: 0;
+  transition: opacity .15s var(--ease-out), transform .15s var(--ease-out);
+}
+.check-box:checked {
+  background: var(--c-accent);
+  border-color: var(--c-accent);
+}
+.check-box:checked::after {
+  opacity: 1;
+  transform: rotate(-45deg) translate(1px, -1px) scale(1);
+}
+.check-box:focus-visible {
+  outline: none;
+  border-color: var(--c-accent);
+  box-shadow: 0 0 0 3px rgba(var(--c-accent-rgb), .18);
+}
+.check-box[aria-invalid='true'] { border-color: var(--c-error); }
+.check-text {
+  color: rgba(var(--c-fg-rgb), .62);
+  font-size: var(--fs-xs);
+  line-height: var(--lh-body);
+  text-wrap: pretty;
+}
+.check-link {
+  color: rgba(var(--c-fg-rgb), .82);
+  text-underline-offset: 3px;
+}
+.check-link:hover { color: var(--c-accent); }
 
 /* ---- Success state ---- */
 .success {
